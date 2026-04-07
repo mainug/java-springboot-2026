@@ -1,0 +1,133 @@
+<!doctype html>
+<!-- 타임리프 템플릿을 사용하겠다는 설정 -->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spring MVC Test Page</title>
+    <style>
+      :root {
+        --primary-color: #4a90e2;
+        --secondary-color: #f5f7fa;
+        --text-color: #333;
+        --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--secondary-color);
+        color: var(--text-color);
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .container {
+        background-color: #fff;
+        padding: 2.5rem;
+        border-radius: 12px;
+        box-shadow: var(--card-shadow);
+        max-width: 450px;
+        width: 90%;
+        text-align: center;
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h1 {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        font-size: 2rem;
+      }
+
+      p {
+        line-height: 1.6;
+        margin-bottom: 2rem;
+        color: #666;
+      }
+
+      .nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: var(--primary-color);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background-color: #357abd;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+      }
+
+      .btn-outline {
+        background-color: transparent;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+      }
+
+      .btn-outline:hover {
+        background-color: var(--primary-color);
+        color: #fff;
+      }
+
+      footer {
+        margin-top: 2rem;
+        font-size: 0.85rem;
+        color: #999;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 4px 8px;
+        background-color: #e3f2fd;
+        color: #1976d2;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <span class="badge">Spring MVC Demo</span>
+      <h1>환영합니다! 🚀</h1>
+      <p>
+        현재 Spring Boot와 Thymeleaf를 이용한 MVC 테스트 페이지입니다.<br />
+        아래 링크를 통해 컨트롤러의 응답을 확인해보세요.
+      </p>
+      <p th:text="${msg}"></p>
+
+      <div class="nav-links">
+        <a href="/hello" class="btn">Hello 엔드포인트 확인</a>
+        <a href="/bye" class="btn btn-outline">Bye 엔드포인트 확인</a>
+      </div>
+
+      <footer>&copy; 2026 Spring MVC Test Dashboard</footer>
+    </div>
+  </body>
+</html>

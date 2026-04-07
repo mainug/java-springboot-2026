@@ -876,7 +876,7 @@ class Box {
 - Exception in thread "main" java.lang.ClassCastException 형변환 예외발생
 - 매번 형변환
 
-- Generic(일반화) 방식
+- Generic(일반화) 방식 - [소스](./day03/ex06_generic/app/src/main/java/ex06_generic/App.java)
 
 ```java
 class Box<T> { // T -> 아무타입이나 상관없음
