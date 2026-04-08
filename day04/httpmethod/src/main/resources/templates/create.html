@@ -1,0 +1,168 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add New Student</title>
+    <style>
+      :root {
+        --primary-color: #4f46e5;
+        --primary-hover: #4338ca;
+        --bg-color: #f9fafb;
+        --card-bg: #ffffff;
+        --text-main: #111827;
+        --text-sub: #6b7280;
+        --border-color: #d1d5db;
+        --input-focus: #4f46e5;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 450px;
+        background: var(--card-bg);
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow:
+          0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        margin: 0 0 8px 0;
+        text-align: center;
+      }
+
+      p.subtitle {
+        text-align: center;
+        color: var(--text-sub);
+        font-size: 0.875rem;
+        margin-bottom: 32px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 6px;
+        color: var(--text-main);
+      }
+
+      input {
+        width: 100%;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        font-size: 1rem;
+        box-sizing: border-box;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: var(--input-focus);
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+      }
+
+      .actions {
+        margin-top: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      button {
+        width: 100%;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      button:hover {
+        background-color: var(--primary-hover);
+      }
+
+      .btn-back {
+        text-align: center;
+        text-decoration: none;
+        color: var(--text-sub);
+        font-size: 0.875rem;
+        transition: color 0.2s;
+      }
+
+      .btn-back:hover {
+        color: var(--text-main);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Register Student</h1>
+      <p class="subtitle">Enter the student's details below</p>
+
+      <form
+        th:action="@{/students/create}"
+        method="post"
+        th:object="${student}"
+      >
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            th:field="*{name}"
+            placeholder="e.g. John Doe"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input
+            type="number"
+            id="age"
+            th:field="*{age}"
+            placeholder="e.g. 20"
+            min="1"
+            max="150"
+            required
+          />
+        </div>
+
+        <div class="actions">
+          <button type="submit">Create Student</button>
+          <a th:href="@{/students/list}" class="btn-back">Cancel and go back</a>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

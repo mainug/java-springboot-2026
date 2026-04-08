@@ -1,0 +1,155 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Registration Result</title>
+    <style>
+      :root {
+        --primary-color: #4f46e5;
+        --primary-hover: #4338ca;
+        --success-color: #10b981;
+        --bg-color: #f9fafb;
+        --card-bg: #ffffff;
+        --text-main: #111827;
+        --text-sub: #6b7280;
+        --border-color: #e5e7eb;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 400px;
+        background: var(--card-bg);
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow:
+          0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        text-align: center;
+      }
+
+      .icon-success {
+        width: 64px;
+        height: 64px;
+        background-color: #ecfdf5;
+        color: var(--success-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+        font-size: 32px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+      }
+
+      .student-info {
+        background-color: #f3f4f6;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 24px 0;
+        text-align: left;
+      }
+
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+
+      .info-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .label {
+        color: var(--text-sub);
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      .value {
+        color: var(--text-main);
+        font-weight: 600;
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .btn-list {
+        display: block;
+        background-color: var(--primary-color);
+        color: white;
+        text-decoration: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: background-color 0.2s;
+      }
+
+      .btn-list:hover {
+        background-color: var(--primary-hover);
+      }
+
+      .btn-add {
+        text-decoration: none;
+        color: var(--text-sub);
+        font-size: 0.875rem;
+        transition: color 0.2s;
+      }
+
+      .btn-add:hover {
+        color: var(--text-main);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="icon-success">✓</div>
+      <h1>Registration Success!</h1>
+      <p style="color: var(--text-sub)">
+        The student has been successfully registered.
+      </p>
+
+      <div class="student-info">
+        <div class="info-row">
+          <span class="label">Name:</span>
+          <span class="value" th:text="${student.name}">John Doe</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Age:</span>
+          <span class="value" th:text="${student.age}">20</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a th:href="@{/students/list}" class="btn-list">View Student List</a>
+        <a th:href="@{/students/create}" class="btn-add"
+          >Register Another Student</a
+        >
+      </div>
+    </div>
+  </body>
+</html>
