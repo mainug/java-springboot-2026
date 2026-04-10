@@ -525,7 +525,7 @@ spring.devtools.livereload.enabled=true
 1. 프로젝트 생성
 
 - Spring Initializr 이전 내용 동일
-- Choose dependencies 선택할 의존성
+- Choose dependencies 선택할 의존성 - [소스](./day05/webboard/build.gradle)
   - Spring Boot DevTools : 개발 필요 툴 기능 포함
   - Lombok : Getter/Setter 자동 만들어주는 라이브러리
   - Spring Web : 웹사이트 관련 작업
@@ -536,7 +536,7 @@ spring.devtools.livereload.enabled=true
 
 2. H2 DB 설정
 
-- application.properties DB설정 추가
+- application.properties DB설정 추가 - [소스](./day05/webboard/src/main/resources/application.properties)
 
 ```properties
 ## H2 DB Settings
@@ -557,7 +557,7 @@ spring.datasource.password=12345
 - Java Persistence API : 자바 관계형 데이터베이스 핸들링 방식 ORM 기술 사용라이브러리
 - ORM : 쿼리를 실행하지 않고 DB와 Java간에 데이터 자동 매핑하는 기술
 
-- application.properties JPA 설정 추가
+- application.properties JPA 설정 추가 - [소스](./day05/webboard/src/main/resources/application.properties)
 
 ```properties
 ## JPA DB Settings
@@ -569,13 +569,13 @@ spring.jpa.properties.hibernate.format_sql=true
 spring.jpa.properties.hibernate.show_sql=true
 ```
 
-4. controller, entity, repository, service 폴더(패키지) 생성
+4. controller, entity, repository, service 폴더(패키지) 생성 - [소스](./day05/webboard/src/main/java/com/pknu26/webboard/)
 
-5. controller/HomeController.java 작성
+5. controller/HomeController.java 작성 - [소스](./day05/webboard/src/main/java/com/pknu26/webboard/controller/HomeController.java)
 
-6. resources/templates/home.html 작성
+6. resources/templates/home.html 작성 - [소스](./day05/webboard/src/main/resources/templates/home.html)
 
-7. entity/Board.java 작성
+7. entity/Board.java 작성 - [소스](./day05/webboard/src/main/java/com/pknu26/webboard/entity/Board.java)
 
 - 어노테이션 주의할 것
   - JPA 어노테이션
@@ -633,4 +633,60 @@ public class User {
 ### Spring Boot webboard 계속
 
 - Spring Boot JPA 구현순서
-- Controller 생성, HTML > Entity 생성 > Repository 생성 > Service 생성 > Controller 재수정
+  - Controller 생성, HTML > Entity 생성 > Repository 생성 > Service 생성 > Controller 재수정
+
+### Spring Boot webboard 계속
+
+- Spring Boot JPA 구현순서
+  - Controller 생성, HTML > Entity 생성 > Repository 생성 > Service 생성 > Controller 재수정
+
+- Service 영역 필요이유
+  - Controller에서는 View로 보낼 데이터만 제대로 처리
+  - Service는 실제 비즈니스 로직과 데이터 처리를 담당, 리포지토리와 컨트롤러의 중간다리 역할
+
+#### Board 작업 순서 1
+
+1. BoardController 생성 - [소스](./day06/webboard/src/main/java/com/pknu26/webboard/controller/BoardController.java)
+2. board_list.html 생성 - [소스](./day06/webboard/src/main/resources/templates/board_list.html)
+3. Board 생성 - [소스](./day06/webboard/src/main/java/com/pknu26/webboard/entity/Board.java)
+4. BoardRepository 생성 - [소스](./day06/webboard/src/main/java/com/pknu26/webboard/repository/BoardRepository.java)
+5. BoardService 생성 - [소스](./day06/webboard/src/main/java/com/pknu26/webboard/service/BoardService.java)
+6. BoardController 수정 - [소스](./day06/webboard/src/main/java/com/pknu26/webboard/controller/BoardController.java)
+
+#### Thymeleaf 레이아웃
+
+- ~~의존성필요 X~~
+- ~~thymeleaf-layout-dialect 의존성 없으면 동작안함~~
+- ~~build.gradle 추가~~
+- Spring 4.x 에서 thymeleaf layout 라이브러리가 제대로 동작안함
+- layout.html
+  - th:fragment="layout(content)"
+  - th:replace="${content}"
+- list.html
+  - th:replace="~{layout :: layout(~{::content})}"
+  - th:fragment="content"
+
+#### Bootstrap 디자인 적용
+
+- 방법 1 : Bootstrap 관련 리소스 다운로드 후 static 폴더 저장
+- 방법 2 : CDN으로 링크를 사용. 실행시 캐시에 다운로드받기
+  - https://getbootstrap.com/
+  - layout.html 리소스 태그 추가
+
+  ![alt text](image-24.png)
+
+#### Board 작업 순서 2
+
+1. validation 관련 의존성 추가
+
+- build.gradle
+
+```groovy
+implementation 'org.springframework.boot:spring-boot-starter-validation'
+```
+
+2. validation 폴더 생성 - [소스](./day06/webboard/src/main/java/com/pknu26/webboard/validation/)
+3. BoardForm.java 생성 - [소스](./day06/webboard/src/main/java/com/pknu26/webboard/validation/BoardForm.java)
+4. board_create.html 생성 - [소스](./day06/webboard/src/main/resources/templates/board_create.html)
+5. BoardService.java 생성 - [소스](./day06/webboard/src/main/java/com/pknu26/webboard/service/BoardService.java)
+6. BoardController.java 메서드 추가 - [소스](./day06/webboard/src/main/java/com/pknu26/webboard/controller/BoardController.java)

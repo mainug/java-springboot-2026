@@ -1,209 +1,31 @@
 <!doctype html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WebBoard - Home</title>
-    <style>
-      :root {
-        --primary-color: #4a90e2;
-        --secondary-color: #f5f7fa;
-        --text-color: #333;
-        --accent-color: #ff6b6b;
-        --white: #ffffff;
-        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-        color: var(--text-color);
-        background-color: var(--secondary-color);
-      }
-
-      header {
-        background-color: var(--white);
-        padding: 1rem 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: var(--shadow);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-      }
-
-      .logo {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: var(--primary-color);
-        text-decoration: none;
-      }
-
-      nav ul {
-        display: flex;
-        list-style: none;
-      }
-
-      nav ul li {
-        margin-left: 1.5rem;
-      }
-
-      nav ul li a {
-        text-decoration: none;
-        color: var(--text-color);
-        font-weight: 500;
-        transition: color 0.3s ease;
-      }
-
-      nav ul li a:hover {
-        color: var(--primary-color);
-      }
-
-      .hero {
-        background: linear-gradient(135deg, var(--primary-color), #67b26f);
-        color: var(--white);
-        padding: 4rem 2rem;
-        text-align: center;
-        margin-bottom: 2rem;
-      }
-
-      .hero h1 {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .hero p {
-        font-size: 1.2rem;
-        max-width: 600px;
-        margin: 0 auto 2rem;
-      }
-
-      .btn {
-        display: inline-block;
-        padding: 0.75rem 1.5rem;
-        background-color: var(--accent-color);
-        color: var(--white);
-        text-decoration: none;
-        border-radius: 5px;
-        font-weight: bold;
-        transition:
-          background-color 0.3s ease,
-          transform 0.2s ease;
-      }
-
-      .btn:hover {
-        background-color: #ff5252;
-        transform: translateY(-2px);
-      }
-
-      .container {
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 0 2rem;
-      }
-
-      .board-preview {
-        background-color: var(--white);
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: var(--shadow);
-      }
-
-      .board-preview h2 {
-        margin-bottom: 1.5rem;
-        border-bottom: 2px solid var(--secondary-color);
-        padding-bottom: 0.5rem;
-      }
-
-      .post-list {
-        list-style: none;
-      }
-
-      .post-item {
-        padding: 1rem 0;
-        border-bottom: 1px solid #eee;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .post-item:last-child {
-        border-bottom: none;
-      }
-
-      .post-title {
-        color: var(--text-color);
-        text-decoration: none;
-        font-weight: 500;
-      }
-
-      .post-title:hover {
-        color: var(--primary-color);
-      }
-
-      .post-meta {
-        font-size: 0.85rem;
-        color: #888;
-      }
-
-      footer {
-        text-align: center;
-        padding: 2rem;
-        margin-top: 3rem;
-        color: #888;
-        font-size: 0.9rem;
-      }
-    </style>
+    <title>WebBoard Home</title>
   </head>
   <body>
-    <header>
-      <a href="/home" class="logo">WebBoard</a>
-      <nav>
-        <ul>
-          <li><a href="/home">홈</a></li>
-          <li><a href="/board/list">게시판</a></li>
-          <li><a href="#">문의하기</a></li>
-        </ul>
-      </nav>
-    </header>
-
-    <main>
-      <section class="hero">
-        <h1>환영합니다!</h1>
-        <p>다양한 정보를 공유하고 자유롭게 대화하는 공간입니다.</p>
-        <a href="#" class="btn">글쓰기</a>
-      </section>
-
-      <div class="container">
-        <section class="board-preview">
-          <h2>최근 게시물</h2>
-          <ul class="post-list">
-            <li class="post-item">
-              <a href="#" class="post-title">첫 번째 게시물입니다.</a>
-              <span class="post-meta">2026-04-09 | 작성자1</span>
-            </li>
-            <li class="post-item">
-              <a href="#" class="post-title">스프링 부트 공부 시작했어요.</a>
-              <span class="post-meta">2026-04-09 | 작성자2</span>
-            </li>
-            <li class="post-item">
-              <a href="#" class="post-title">오늘 날씨가 참 좋네요!</a>
-              <span class="post-meta">2026-04-09 | 작성자3</span>
-            </li>
-          </ul>
-        </section>
+    <div style="text-align: center; padding: 50px">
+      <h1>🚀 PKNU26 Web Board</h1>
+      <p>Spring Boot + JPA + Thymeleaf 연습용 게시판</p>
+      <hr />
+      <div style="margin: 20px">
+        <a th:href="@{/board/list}">[게시판 바로가기]</a>
+        <a th:href="@{/board/create}">[글쓰기]</a>
       </div>
-    </main>
 
-    <footer>
-      <p>&copy; 2026 WebBoard Project. All rights reserved.</p>
-    </footer>
+      <div style="text-align: left; width: 50%; margin: 0 auto">
+        <h4>최근 게시글</h4>
+        <ul>
+          <li th:each="board, iter : ${boardList}" th:if="${iter.index < 5}">
+            <a
+              th:href="@{|/board/detail/${board.bno}|}"
+              th:text="${board.title}"
+              >제목</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
   </body>
 </html>
