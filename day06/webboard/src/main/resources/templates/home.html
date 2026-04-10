@@ -1,28 +1,38 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <title>WebBoard Home</title>
-  </head>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layout :: layout(~{::content})}"
+>
   <body>
-    <div style="text-align: center; padding: 50px">
-      <h1>🚀 PKNU26 Web Board</h1>
-      <p>Spring Boot + JPA + Thymeleaf 연습용 게시판</p>
-      <hr />
-      <div style="margin: 20px">
-        <a th:href="@{/board/list}">[게시판 바로가기]</a>
-        <a th:href="@{/board/create}">[글쓰기]</a>
+    <div th:fragment="content" class="text-center">
+      <h3 class="fw-bold mt-4">안녕하세요! 👋</h3>
+      <p class="text-muted mb-5">게시판 프로젝트에 오신 것을 환영합니다.</p>
+
+      <div class="d-grid gap-3">
+        <a th:href="@{/board/list}" class="btn btn-gradient shadow"
+          >게시판 구경하기</a
+        >
       </div>
 
-      <div style="text-align: left; width: 50%; margin: 0 auto">
-        <h4>최근 게시글</h4>
-        <ul>
-          <li th:each="board, iter : ${boardList}" th:if="${iter.index < 5}">
+      <div class="mt-5 text-start">
+        <h6 class="fw-bold mb-3">
+          <i class="bi bi-pin-angle-fill"></i> 최근 등록된 글
+        </h6>
+        <ul class="list-group list-group-flush shadow-sm rounded">
+          <li
+            th:each="board, iter : ${boardList}"
+            th:if="${iter.index < 3}"
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
             <a
               th:href="@{|/board/detail/${board.bno}|}"
+              class="text-decoration-none text-dark small"
               th:text="${board.title}"
-              >제목</a
-            >
+            ></a>
+            <span
+              class="badge bg-light text-dark fw-normal"
+              th:text="${#temporals.format(board.createDate, 'MM-dd')}"
+            ></span>
           </li>
         </ul>
       </div>

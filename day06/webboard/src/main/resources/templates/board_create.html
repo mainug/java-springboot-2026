@@ -1,37 +1,55 @@
-<html layout:decorate="~{layout}">
-  <div layout:fragment="content">
-    <h2 class="border-bottom py-2">✍️ 새 게시글 등록</h2>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layout :: layout(~{::content})}"
+>
+  <div th:fragment="content">
+    <div class="page-header d-flex justify-content-between align-items-center">
+      <h2 class="fw-bold">✍️ 새 게시글 등록</h2>
+    </div>
+
     <form
       th:action="@{/board/create}"
       th:object="${boardForm}"
       method="post"
       class="mt-4 shadow-sm p-4 bg-white rounded"
     >
-      <div class="mb-3">
-        <label class="form-label fw-bold">제목</label>
+      <div class="mb-4">
+        <label class="form-label fw-bold fs-5 text-dark">제목</label>
         <input
           type="text"
           th:field="*{title}"
-          class="form-control"
+          class="form-control form-control-lg border-primary shadow-sm"
           th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'"
+          placeholder="제목을 입력하세요"
         />
-        <div class="invalid-feedback" th:errors="*{title}"></div>
+        <div
+          class="invalid-feedback fw-bold text-danger fs-6"
+          th:errors="*{title}"
+        ></div>
       </div>
-      <div class="mb-3">
-        <label class="form-label fw-bold">내용</label>
+      <div class="mb-5">
+        <label class="form-label fw-bold fs-5 text-dark">내용</label>
         <textarea
           th:field="*{content}"
-          class="form-control"
-          rows="10"
+          class="form-control form-control-lg border-primary shadow-sm"
+          rows="12"
           th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'"
+          placeholder="내용을 작성하세요"
         ></textarea>
-        <div class="invalid-feedback" th:errors="*{content}"></div>
+        <div
+          class="invalid-feedback fw-bold text-danger fs-6"
+          th:errors="*{content}"
+        ></div>
       </div>
-      <div class="text-end border-top pt-3">
-        <a th:href="@{/board/list}" class="btn btn-outline-secondary me-2"
-          >목록으로</a
+      <div class="text-end border-top pt-4">
+        <a
+          th:href="@{/board/list}"
+          class="btn btn-outline-danger btn-lg me-3 px-4 shadow-sm"
+          >취소</a
         >
-        <button type="submit" class="btn btn-success px-4">저장하기</button>
+        <button type="submit" class="btn btn-success btn-lg px-5 shadow">
+          저장하기
+        </button>
       </div>
     </form>
   </div>

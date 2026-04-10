@@ -1,32 +1,45 @@
-<html layout:decorate="~{layout}">
-  <div layout:fragment="content">
-    <h2 class="border-bottom py-2">📋 게시글 목록</h2>
-    <table class="table table-hover mt-3 text-center">
-      <thead class="table-dark">
-        <tr>
-          <th>번호</th>
-          <th style="width: 50%">제목</th>
-          <th>작성일시</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="board : ${boardList}">
-          <td th:text="${board.bno}"></td>
-          <td class="text-start">
-            <a
-              th:href="@{|/board/detail/${board.bno}|}"
-              class="text-decoration-none text-dark fw-bold"
-              th:text="${board.title}"
-            ></a>
-          </td>
-          <td
-            th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm')}"
-          ></td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="text-end">
-      <a th:href="@{/board/create}" class="btn btn-primary">새 글 쓰기</a>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layout :: layout(~{::content})}"
+>
+  <div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="fw-bold mb-0">📋 게시글 목록</h3>
+      <a th:href="@{/board/create}" class="btn btn-primary px-4 shadow-sm"
+        >글쓰기</a
+      >
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mt-3">
+        <thead class="table-dark text-center">
+          <tr>
+            <th style="width: 10%">번호</th>
+            <th style="width: 50%">제목</th>
+            <th style="width: 25%">작성일시</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="board : ${boardList}" class="text-center">
+            <td th:text="${board.bno}" class="fw-bold text-muted"></td>
+            <td class="text-start fs-6">
+              <a
+                th:href="@{|/board/detail/${board.bno}|}"
+                class="text-decoration-none text-dark fw-bold text-hover-blue"
+                th:text="${board.title}"
+              ></a>
+            </td>
+            <td
+              th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm')}"
+              class="small text-muted"
+            ></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-4">
+      <a th:href="@{/home}" class="btn btn-outline-secondary px-4">홈으로</a>
     </div>
   </div>
 </html>
