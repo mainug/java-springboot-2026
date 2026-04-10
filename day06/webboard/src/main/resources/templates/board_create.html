@@ -3,33 +3,31 @@
   th:replace="~{layout :: layout(~{::content})}"
 >
   <div th:fragment="content">
-    <h4 class="fw-bold text-center mb-4">Create Story</h4>
+    <h3 style="margin-bottom: 30px; font-weight: 800">Create One</h3>
     <form th:action="@{/board/create}" th:object="${boardForm}" method="post">
-      <div class="mb-4">
-        <label class="small text-muted fw-bold">TITLE</label>
-        <input
-          type="text"
-          th:field="*{title}"
-          class="form-control"
-          th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'"
-          placeholder="Type your title"
-        />
-        <div class="invalid-feedback" th:errors="*{title}"></div>
+      <div class="input-group">
+        <label>TITLE</label>
+        <input type="text" th:field="*{title}" placeholder="Type your title" />
+        <span
+          style="color: red; font-size: 0.7rem"
+          th:if="${#fields.hasErrors('title')}"
+          th:errors="*{title}"
+        ></span>
       </div>
-      <div class="mb-4">
-        <label class="small text-muted fw-bold">CONTENT</label>
+      <div class="input-group">
+        <label>CONTENT</label>
         <textarea
           th:field="*{content}"
-          class="form-control"
-          rows="8"
-          th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'"
+          rows="5"
           placeholder="Type your message"
         ></textarea>
-        <div class="invalid-feedback" th:errors="*{content}"></div>
+        <span
+          style="color: red; font-size: 0.7rem"
+          th:if="${#fields.hasErrors('content')}"
+          th:errors="*{content}"
+        ></span>
       </div>
-      <div class="d-grid mt-5">
-        <button type="submit" class="btn btn-main py-3">SAVE POST</button>
-      </div>
+      <button type="submit" class="btn-submit">SAVE NOW</button>
     </form>
   </div>
 </html>
