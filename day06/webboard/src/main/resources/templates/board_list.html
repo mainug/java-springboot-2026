@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebBoard - 게시판 목록</title>
+    <style>
+      :root {
+        --primary-color: #4a90e2;
+        --secondary-color: #f5f7fa;
+        --text-color: #333;
+        --accent-color: #ff6b6b;
+        --white: #ffffff;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --border-color: #e1e4e8;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: var(--secondary-color);
+      }
+
+      header {
+        background-color: var(--white);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        text-decoration: none;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+      }
+
+      nav ul li {
+        margin-left: 1.5rem;
+      }
+
+      nav ul li a {
+        text-decoration: none;
+        color: var(--text-color);
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      nav ul li a:hover {
+        color: var(--primary-color);
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 3rem auto;
+        padding: 0 2rem;
+      }
+
+      .board-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      .board-header h1 {
+        font-size: 2rem;
+        color: var(--text-color);
+        position: relative;
+      }
+
+      .board-header h1::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 50px;
+        height: 4px;
+        background-color: var(--primary-color);
+        border-radius: 2px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 0.6rem 1.2rem;
+        background-color: var(--primary-color);
+        color: var(--white);
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        transition:
+          background-color 0.3s ease,
+          transform 0.2s ease;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background-color: #357abd;
+        transform: translateY(-2px);
+      }
+
+      .btn-write {
+        background-color: var(--accent-color);
+      }
+
+      .btn-write:hover {
+        background-color: #ff5252;
+      }
+
+      .board-table-container {
+        background-color: var(--white);
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f8f9fa;
+        color: #555;
+        font-weight: 600;
+        padding: 1.2rem 1rem;
+        border-bottom: 2px solid var(--border-color);
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+      }
+
+      td {
+        padding: 1.2rem 1rem;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 0.95rem;
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+
+      tr:hover td {
+        background-color: #fcfdfe;
+      }
+
+      .col-no {
+        width: 10%;
+        text-align: center;
+      }
+      .col-title {
+        width: 60%;
+      }
+      .col-date {
+        width: 30%;
+        text-align: center;
+        color: #888;
+      }
+
+      .post-link {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+
+      .post-link:hover {
+        color: var(--primary-color);
+      }
+
+      .empty-message {
+        padding: 4rem;
+        text-align: center;
+        color: #999;
+        font-size: 1.1rem;
+      }
+
+      footer {
+        text-align: center;
+        padding: 2rem;
+        margin-top: 5rem;
+        color: #888;
+        font-size: 0.9rem;
+        border-top: 1px solid var(--border-color);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/home" class="logo">WebBoard</a>
+      <nav>
+        <ul>
+          <li><a href="/home">홈</a></li>
+          <li><a href="/board/list">게시판</a></li>
+          <li><a href="#">문의하기</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <div class="board-header">
+        <h1>자유게시판</h1>
+        <a href="#" class="btn btn-write">글쓰기</a>
+      </div>
+
+      <div class="board-table-container">
+        <table>
+          <thead>
+            <tr>
+              <th class="col-no">번호</th>
+              <th class="col-title">제목</th>
+              <th class="col-date">작성일</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="board : ${boardList}">
+              <td class="col-no" th:text="${board.bno}">1</td>
+              <td class="col-title">
+                <a
+                  th:href="@{|/board/detail/${board.bno}|}"
+                  class="post-link"
+                  th:text="${board.title}"
+                >
+                  게시글 제목이 여기에 표시됩니다.
+                </a>
+              </td>
+              <td
+                class="col-date"
+                th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd HH:mm')}"
+              >
+                2026-04-10 12:00
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(boardList)}">
+              <td colspan="3" class="empty-message">
+                게시글이 존재하지 않습니다.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 WebBoard Project. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
