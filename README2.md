@@ -790,3 +790,86 @@ COMMIT;
 
 - Oracle 설정
 - MyBatis 설정
+  ```properties
+  # MyBatis는 버전을 반드시 지정
+  implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.1'
+  ```
+
+### MyBatis
+
+- 개발자가 작성한 SQL문을 매핑해서 지원하는 프레임워크
+- DB 쿼리를 xml로 Java 코드와 분리, 유지보수와 생산성을 높이는 기능
+- JPA : ORM 프레임워크와 달리 직접 쿼리를 작성
+- JPA가진 복잡한 쿼리 문제를 MyBatis로 해결
+
+#### 폴더 지정
+
+- controller : 컨트롤러
+- service : 서비스
+- mapper : SQL이 작성된 XML과 연결시켜주는 클래스
+- dto : Data Transfer Object. JPA에 entity와 유사한 기능 클래스. 테이블 생성 X
+- resources/mapper : Java mapper 클래스와 연결되는 XML 파일 저장위치
+
+#### 클래스/인터페이스 생성
+
+- dto/Student 클래스 생성 - [소스](./day08/studygroup/src/main/java/com/pknu26/studygroup/dto/Student.java)
+- mapper/StudentMapper 인터페이스 생성
+- resources/mapper/StudentMapper.xml 생성, 쿼리문 작성. 빌드후 class 변경
+- service/StudentService 클래스 생성
+- controller/StudentController 클래스 생성. RestAPI용 RestController
+
+#### Swagger UI GET/POST 테스트 수행
+
+![alt text](image-26.png)
+
+#### 게시판 테이블 생성
+
+```sql
+-- 게시판 테이블 생성
+CREATE TABLE BOARD (
+    BOARD_ID NUMBER PRIMARY KEY,
+    TITLE VARCHAR2(200) NOT NULL,
+    CONTENT CLOB NOT NULL,
+    WRITER VARCHAR2(100) NOT NULL,
+    CREATED_AT DATE DEFAULT SYSDATE NOT NULL,
+    UPDATED_AT DATE
+);
+
+-- 게시판 시퀀스 생성
+CREATE SEQUENCE BOARD_SEQ
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
+```
+
+#### Thymeleaf form Validation 의존성 추가
+
+```groovy
+implementation 'org.springframework.boot:spring-boot-starter-validation'
+```
+
+#### Validation 폴더 생성
+
+- 폼 입력검증 폴더 필요
+
+#### 클래스/인터페이스 생성
+
+- dto/Board 클래스
+- validation/BoardForm 클래스
+- mapper/BoardMapper 인터페이스
+- resources/mapper/BoardMapper.xml 쿼리
+- service/BoardService 인터페이스
+- service/BoardServiceImpl 클래스
+- controller/BoardController 클래스
+
+#### HTML 생성
+
+- resources/templates/layout.html
+- resources/templates/board/list.html
+- resources/templates/board/detail.html
+- resources/templates/board/form.html
+
+#### 중간 실행 결과
+
+![alt text](image-27.png)
