@@ -1,0 +1,154 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>영화 상세 정보</title>
+    <style>
+      body {
+        font-family: "Pretendard", sans-serif;
+        margin: 0;
+        padding: 40px;
+        background-color: #fff;
+        color: #333;
+      }
+      .header {
+        border-bottom: 2px solid #000;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .title-area h1 {
+        margin: 0;
+        font-size: 32px;
+      }
+      .title-area p {
+        margin: 5px 0 0;
+        color: #666;
+        font-size: 18px;
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 40px;
+      }
+      .info-list {
+        list-style: none;
+        padding: 0;
+        border-top: 1px solid #eee;
+      }
+      .info-list li {
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+        display: flex;
+      }
+      .info-list label {
+        width: 100px;
+        font-weight: bold;
+        color: #888;
+      }
+
+      .description-area {
+        line-height: 1.8;
+        font-size: 16px;
+        white-space: pre-wrap;
+      }
+      .description-area h3 {
+        margin-top: 0;
+        border-left: 4px solid #000;
+        padding-left: 10px;
+      }
+
+      .button-group {
+        margin-top: 50px;
+        display: flex;
+        gap: 10px;
+      }
+      .btn {
+        padding: 12px 24px;
+        text-decoration: none;
+        border: 1px solid #000;
+        color: #000;
+        font-weight: bold;
+        transition: 0.2s;
+      }
+      .btn:hover {
+        background-color: #000;
+        color: #fff;
+      }
+      .btn-delete {
+        color: #e74c3c;
+        border-color: #e74c3c;
+        background: none;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: inherit;
+      }
+      .btn-delete:hover {
+        background-color: #e74c3c;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="title-area">
+        <h1 th:text="${movie.title}">영화 제목</h1>
+        <p th:text="${movie.originalTitle}">Original Title</p>
+      </div>
+      <div class="rating-badge">
+        <span style="font-size: 24px; font-weight: bold"
+          >⭐ <span th:text="${movie.rating}">9.0</span></span
+        >
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="info-sidebar">
+        <ul class="info-list">
+          <li>
+            <label>감독</label><span th:text="${movie.director}">감독명</span>
+          </li>
+          <li>
+            <label>출연</label><span th:text="${movie.actors}">배우들</span>
+          </li>
+          <li><label>장르</label><span th:text="${movie.genre}">장르</span></li>
+          <li>
+            <label>러닝타임</label
+            ><span th:text="${movie.runningTime} + '분'">120분</span>
+          </li>
+          <li>
+            <label>개봉일</label
+            ><span th:text="${movie.releaseDate}">2026-04-16</span>
+          </li>
+        </ul>
+      </div>
+      <div class="description-area">
+        <h3>SYNOPSIS</h3>
+        <p th:text="${movie.description}">영화 설명이 들어갑니다.</p>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <a th:href="@{/movies}" class="btn">목록으로</a>
+      <a th:href="@{/movies/{id}/edit(id=${movie.movieId})}" class="btn"
+        >수정하기</a
+      >
+      <form
+        th:action="@{/movies/{id}/delete(id=${movie.movieId})}"
+        method="post"
+        style="display: inline"
+      >
+        <button
+          type="submit"
+          class="btn btn-delete"
+          onclick="return confirm('정말 삭제하시겠습니까?');"
+        >
+          삭제하기
+        </button>
+      </form>
+    </div>
+  </body>
+</html>

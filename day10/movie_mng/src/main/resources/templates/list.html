@@ -1,0 +1,129 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Movie List</title>
+    <style>
+      body {
+        font-family: "Pretendard", sans-serif;
+        padding: 50px;
+        background-color: #fafafa;
+        color: #222;
+      }
+      .wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+      h1 {
+        font-size: 28px;
+        margin: 0;
+        letter-spacing: -1px;
+      }
+
+      .btn-new {
+        padding: 12px 20px;
+        background-color: #000;
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 4px;
+      }
+      .btn-new:hover {
+        background-color: #333;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border-top: 2px solid #000;
+      }
+      th {
+        padding: 15px;
+        background: #f9f9f9;
+        text-align: left;
+        font-size: 14px;
+        color: #666;
+        border-bottom: 1px solid #eee;
+      }
+      td {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        font-size: 15px;
+      }
+
+      .title-link {
+        color: #000;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .title-link:hover {
+        text-decoration: underline;
+      }
+      .genre-tag {
+        padding: 4px 8px;
+        background: #eee;
+        border-radius: 4px;
+        font-size: 12px;
+      }
+      .rating {
+        font-weight: bold;
+        color: #f39c12;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="header">
+        <h1>Movie Collection</h1>
+        <a th:href="@{/movies/new}" class="btn-new">+ 새 영화 추가</a>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>제목</th>
+            <th>장르</th>
+            <th>평점</th>
+            <th>개봉일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="movie : ${movies}">
+            <td th:text="${movie.movieId}" style="color: #999">1</td>
+            <td>
+              <a
+                th:href="@{/movies/{id}(id=${movie.movieId})}"
+                th:text="${movie.title}"
+                class="title-link"
+                >영화 제목</a
+              >
+            </td>
+            <td>
+              <span class="genre-tag" th:text="${movie.genre}">Genre</span>
+            </td>
+            <td class="rating" th:text="${movie.rating}">8.5</td>
+            <td th:text="${movie.releaseDate}" style="color: #666">
+              2026-04-16
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(movies)}">
+            <td
+              colspan="5"
+              style="text-align: center; padding: 50px; color: #999"
+            >
+              등록된 영화가 없습니다.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

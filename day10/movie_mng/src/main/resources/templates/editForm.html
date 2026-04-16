@@ -1,0 +1,141 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>영화 정보 수정</title>
+    <style>
+      body {
+        font-family: "Pretendard", sans-serif;
+        padding: 40px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      h2 {
+        border-bottom: 2px solid #000;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: #555;
+      }
+      input[type="text"],
+      input[type="number"],
+      input[type="date"],
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      textarea {
+        height: 200px;
+        resize: vertical;
+      }
+      .btn-area {
+        display: flex;
+        gap: 10px;
+        margin-top: 30px;
+      }
+      .btn-save {
+        flex: 2;
+        padding: 15px;
+        background: #000;
+        color: #fff;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .btn-cancel {
+        flex: 1;
+        padding: 15px;
+        background: #eee;
+        color: #333;
+        text-decoration: none;
+        text-align: center;
+        font-weight: bold;
+      }
+      .btn-save:hover {
+        background: #333;
+      }
+      .row {
+        display: flex;
+        gap: 20px;
+      }
+      .row > div {
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>영화 정보 수정</h2>
+    <form
+      th:action="@{/movies/{id}/edit(id=${movie.movieId})}"
+      th:object="${movie}"
+      method="post"
+    >
+      <input type="hidden" th:field="*{movieId}" />
+
+      <div class="form-group">
+        <label>영화 제목</label>
+        <input type="text" th:field="*{title}" required />
+      </div>
+
+      <div class="form-group">
+        <label>원제</label>
+        <input type="text" th:field="*{originalTitle}" />
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <label>장르</label>
+          <input type="text" th:field="*{genre}" placeholder="장르 입력" />
+        </div>
+        <div class="form-group">
+          <label>평점</label>
+          <input type="number" step="0.1" th:field="*{rating}" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <label>감독</label>
+          <input type="text" th:field="*{director}" />
+        </div>
+        <div class="form-group">
+          <label>러닝타임 (분)</label>
+          <input type="number" th:field="*{runningTime}" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>개봉일</label>
+        <input type="date" th:field="*{releaseDate}" />
+      </div>
+
+      <div class="form-group">
+        <label>주요 배우</label>
+        <input type="text" th:field="*{actors}" />
+      </div>
+
+      <div class="form-group">
+        <label>상세 설명</label>
+        <textarea th:field="*{description}"></textarea>
+      </div>
+
+      <div class="btn-area">
+        <button type="submit" class="btn-save">수정 완료</button>
+        <a th:href="@{/movies/{id}(id=${movie.movieId})}" class="btn-cancel"
+          >취소</a
+        >
+      </div>
+    </form>
+  </body>
+</html>
