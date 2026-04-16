@@ -1002,3 +1002,23 @@ NOCYCLE;
 - dto/LoginUser 클래스 생성 - 브라우저에 보관되는 세션에 필요정보만 클래스로 생성
 - controller/UserController 클래스 생성
 - templates/login/join.html 페이지 생성
+
+![alt text](image-31.png)
+
+## 10일차
+
+### MyBatis StudyGroup 계속
+
+#### 회원가입/로그인 계속
+
+- templates/user/login.html 페이지 생성
+- controller/UserController 클래스에 로그인관련 메서드 추가
+
+![alt text](image-32.png)
+
+#### 부트스트랩 템플릿 리스트
+
+- [부트스트랩 공식 사이트](https://getbootstrap.com/docs/5.3/examples/)
+- [스타트 부트스트랩](https://startbootstrap.com/)
+- [mdbootstrap](https://mdbootstrap.com/freebies/)
+- [bootstrapmade](https://bootstrapmade.com/)
