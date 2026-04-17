@@ -1022,3 +1022,20 @@ NOCYCLE;
 - [스타트 부트스트랩](https://startbootstrap.com/)
 - [mdbootstrap](https://mdbootstrap.com/freebies/)
 - [bootstrapmade](https://bootstrapmade.com/)
+
+## 11일차
+
+#### 게시판 계정 연결
+
+- 세션과 연결
+
+#### 게시판 이슈(현재 문제점)
+
+1. 게시글 상세에서 이름대신 로그인 아이디가 표시
+2. 본인 글이 아닌게 수정됨
+
+#### 게시판 웹에디터 적용
+
+- 티스토리 웹에디터
+
+![alt text](image-33.png)
