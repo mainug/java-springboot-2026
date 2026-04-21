@@ -10,14 +10,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/food")
 @RequiredArgsConstructor
 public class FoodController {
 
     private final FoodMapper foodMapper;
 
+    // 랜딩 페이지 -> 목록으로 이동
+    @GetMapping("/")
+    public String home() {
+        return "redirect:/food/list";
+    }
+
     // 음식 목록 조회
-    @GetMapping("/list")
+    @GetMapping("/food/list")
     public String list(Model model) {
         List<FoodDTO> foods = foodMapper.selectAllFoods();
         model.addAttribute("foods", foods);
@@ -25,13 +30,13 @@ public class FoodController {
     }
 
     // 등록 페이지 이동
-    @GetMapping("/add")
+    @GetMapping("/food/add")
     public String addForm() {
         return "food/add";
     }
 
     // 음식 정보 등록 실행
-    @PostMapping("/add")
+    @PostMapping("/food/add")
     public String addFood(@ModelAttribute FoodDTO foodDTO) {
         foodMapper.insertFood(foodDTO);
         return "redirect:/food/list";

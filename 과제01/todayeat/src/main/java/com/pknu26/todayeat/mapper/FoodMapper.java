@@ -8,6 +8,9 @@ import com.pknu26.todayeat.dto.FoodDTO;
 
 @Mapper
 public interface FoodMapper {
+
     void insertFood(FoodDTO food);
+
     List<FoodDTO> selectAllFoods();
+    
 }

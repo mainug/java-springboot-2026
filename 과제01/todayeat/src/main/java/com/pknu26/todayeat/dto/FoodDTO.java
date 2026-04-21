@@ -11,6 +11,6 @@ public class FoodDTO {
     private String category;
     private Integer rating;
     private String memo;
-    private LocalDate eatDate; // 음식 먹은 날짜
-    private LocalDateTime createdAt; // 작성 일자
+    private LocalDate eatDate;
+    private LocalDateTime createdAt;
 }

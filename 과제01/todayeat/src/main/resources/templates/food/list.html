@@ -4,46 +4,459 @@
     <meta charset="UTF-8" />
     <title>오늘 뭐 먹지? 목록</title>
     <style>
-      table {
-        border-collapse: collapse;
-        width: 100%;
+      * {
+        box-sizing: border-box;
       }
-      th,
+
+      body {
+        margin: 0;
+        font-family: "Pretendard", "Malgun Gothic", sans-serif;
+        background: linear-gradient(180deg, #fff8f0 0%, #f7f9fc 100%);
+        color: #222;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 48px 20px 100px;
+      }
+
+      .page-header {
+        margin-bottom: 24px;
+      }
+
+      .page-title {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 800;
+        color: #222;
+      }
+
+      .page-subtitle {
+        margin-top: 10px;
+        color: #666;
+        font-size: 15px;
+      }
+
+      .card {
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      thead {
+        background: #fff3e8;
+      }
+
+      th {
+        padding: 18px 14px;
+        font-size: 14px;
+        font-weight: 700;
+        color: #444;
+        text-align: center;
+        border-bottom: 1px solid #f0e2d4;
+        white-space: nowrap;
+      }
+
       td {
-        border: 1px solid #ddd;
-        padding: 8px;
+        padding: 16px 14px;
+        font-size: 14px;
+        text-align: center;
+        border-bottom: 1px solid #f3f3f3;
+        vertical-align: middle;
+      }
+
+      tbody tr:hover {
+        background: #fffaf5;
+      }
+
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+
+      .food-name {
+        font-weight: 700;
+        color: #222;
+      }
+
+      .category-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: #f4f6f8;
+        font-size: 13px;
+        font-weight: 700;
+        color: #555;
+      }
+
+      .rating {
+        color: #ffb400;
+        font-size: 15px;
+        letter-spacing: 1px;
+      }
+
+      .memo {
+        max-width: 260px;
+        margin: 0 auto;
+        color: #555;
+        word-break: keep-all;
+      }
+
+      .empty-box {
+        padding: 70px 20px;
         text-align: center;
       }
-      .rating {
-        color: gold;
+
+      .empty-title {
+        font-size: 22px;
+        font-weight: 800;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .empty-text {
+        color: #777;
+        font-size: 15px;
+      }
+
+      .fab {
+        position: fixed;
+        right: 28px;
+        bottom: 28px;
+        width: 68px;
+        height: 68px;
+        border: none;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff8a3d, #ff5e57);
+        color: #fff;
+        font-size: 38px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 12px 28px rgba(255, 94, 87, 0.35);
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease;
+        z-index: 1000;
+      }
+
+      .fab:hover {
+        transform: translateY(-2px) scale(1.04);
+        box-shadow: 0 16px 32px rgba(255, 94, 87, 0.42);
+      }
+
+      .fab:active {
+        transform: scale(0.98);
+      }
+
+      /* 모달 */
+      .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .modal.show {
+        display: flex;
+      }
+
+      .modal-card {
+        width: 100%;
+        max-width: 560px;
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.2);
+        padding: 28px 24px;
+        position: relative;
+      }
+
+      .modal-title {
+        margin: 0 0 8px;
+        font-size: 28px;
+        font-weight: 800;
+      }
+
+      .modal-subtitle {
+        margin: 0 0 24px;
+        color: #777;
+        font-size: 14px;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 14px;
+        right: 16px;
+        border: none;
+        background: transparent;
+        font-size: 28px;
+        cursor: pointer;
+        color: #666;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        color: #444;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        border: 1px solid #e3e6eb;
+        border-radius: 14px;
+        padding: 14px;
+        font-size: 15px;
+        outline: none;
+        transition:
+          border-color 0.15s ease,
+          box-shadow 0.15s ease;
+        background: #fff;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: #ff8a3d;
+        box-shadow: 0 0 0 4px rgba(255, 138, 61, 0.12);
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 110px;
+      }
+
+      .button-row {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .btn {
+        flex: 1;
+        border: none;
+        border-radius: 14px;
+        padding: 14px 16px;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #ff8a3d, #ff5e57);
+        color: #fff;
+      }
+
+      .btn-secondary {
+        background: #f3f5f7;
+        color: #444;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 28px 14px 90px;
+        }
+
+        .page-title {
+          font-size: 26px;
+        }
+
+        th,
+        td {
+          padding: 13px 10px;
+          font-size: 13px;
+        }
+
+        .memo {
+          max-width: 180px;
+          font-size: 13px;
+        }
+
+        .fab {
+          width: 60px;
+          height: 60px;
+          right: 18px;
+          bottom: 18px;
+          font-size: 34px;
+        }
+
+        .button-row {
+          flex-direction: column;
+        }
       }
     </style>
   </head>
   <body>
-    <h2>오늘 뭐 먹지? 기록장</h2>
-    <a th:href="@{/food/add}">[새 음식 등록]</a>
-    <hr />
-    <table>
-      <thead>
-        <tr>
-          <th>번호</th>
-          <th>음식명</th>
-          <th>카테고리</th>
-          <th>평점</th>
-          <th>날짜</th>
-          <th>메모</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="food : ${foods}">
-          <td th:text="${food.id}">1</td>
-          <td th:text="${food.name}">비빔밥</td>
-          <td th:text="${food.category}">한식</td>
-          <td class="rating" th:text="${'★'.repeat(food.rating)}">★★★</td>
-          <td th:text="${food.eatDate}">2026-04-21</td>
-          <td th:text="${food.memo}">맛있어요</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="container">
+      <div class="page-header">
+        <h1 class="page-title">오늘 뭐 먹지? 기록장</h1>
+        <div class="page-subtitle">먹었던 음식들을 날짜별로 정리해보세요.</div>
+      </div>
+
+      <div class="card" th:if="${!#lists.isEmpty(foods)}">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>번호</th>
+                <th>음식명</th>
+                <th>카테고리</th>
+                <th>평점</th>
+                <th>날짜</th>
+                <th>메모</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="food : ${foods}">
+                <td th:text="${food.id}">1</td>
+                <td class="food-name" th:text="${food.name}">비빔밥</td>
+                <td>
+                  <span class="category-badge" th:text="${food.category}"
+                    >한식</span
+                  >
+                </td>
+                <td class="rating" th:text="${'★'.repeat(food.rating)}">
+                  ★★★★★
+                </td>
+                <td th:text="${food.eatDate}">2026-04-21</td>
+                <td>
+                  <div class="memo" th:text="${food.memo}">맛있어요</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card empty-box" th:if="${#lists.isEmpty(foods)}">
+        <div class="empty-title">아직 기록된 음식이 없습니다</div>
+        <div class="empty-text">우측 하단의 + 버튼을 눌러 바로 등록하세요.</div>
+      </div>
+    </div>
+
+    <!-- 플로팅 + 버튼 -->
+    <button type="button" class="fab" onclick="openModal()" title="음식 추가">
+      +
+    </button>
+
+    <!-- 등록 모달 -->
+    <div id="foodModal" class="modal">
+      <div class="modal-card">
+        <button type="button" class="close-btn" onclick="closeModal()">
+          &times;
+        </button>
+
+        <h2 class="modal-title">먹은 음식 기록하기</h2>
+        <p class="modal-subtitle">이 페이지에서 바로 등록할 수 있습니다.</p>
+
+        <form th:action="@{/food/add}" method="post">
+          <div class="form-group">
+            <label for="name">음식명</label>
+            <input
+              id="name"
+              type="text"
+              name="name"
+              placeholder="예: 비빔밥"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="category">종류</label>
+            <select id="category" name="category">
+              <option value="한식">한식</option>
+              <option value="일식">일식</option>
+              <option value="중식">중식</option>
+              <option value="양식">양식</option>
+              <option value="기타">기타</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="rating">평점</label>
+            <input
+              id="rating"
+              type="number"
+              name="rating"
+              min="1"
+              max="5"
+              value="5"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="eatDate">날짜</label>
+            <input id="eatDate" type="date" name="eatDate" required />
+          </div>
+
+          <div class="form-group">
+            <label for="memo">메모</label>
+            <textarea
+              id="memo"
+              name="memo"
+              placeholder="간단한 후기를 적어보세요."
+            ></textarea>
+          </div>
+
+          <div class="button-row">
+            <button type="submit" class="btn btn-primary">저장</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="closeModal()"
+            >
+              취소
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const modal = document.getElementById("foodModal");
+
+      function openModal() {
+        modal.classList.add("show");
+      }
+
+      function closeModal() {
+        modal.classList.remove("show");
+      }
+
+      window.addEventListener("click", function (e) {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+
+      window.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeModal();
+        }
+      });
+    </script>
   </body>
 </html>
