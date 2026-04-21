@@ -1,0 +1,35 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>음식 등록</title>
+  </head>
+  <body>
+    <h2>먹은 음식 기록하기</h2>
+    <form th:action="@{/food/add}" method="post">
+      <label>음식명:</label>
+      <input type="text" name="name" required /><br />
+
+      <label>종류:</label>
+      <select name="category">
+        <option value="한식">한식</option>
+        <option value="일식">일식</option>
+        <option value="중식">중식</option>
+        <option value="양식">양식</option>
+        <option value="기타">기타</option></select
+      ><br />
+
+      <label>평점:</label>
+      <input type="number" name="rating" min="1" max="5" value="5" /><br />
+
+      <label>날짜:</label>
+      <input type="date" name="eatDate" required /><br />
+
+      <label>메모:</label><br />
+      <textarea name="memo" rows="4" cols="30"></textarea><br />
+
+      <button type="submit">저장</button>
+      <button type="button" onclick="history.back()">취소</button>
+    </form>
+  </body>
+</html>

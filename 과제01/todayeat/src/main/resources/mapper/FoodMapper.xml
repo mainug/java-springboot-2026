@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pknu26.todayeat.mapper.FoodMapper">
+
+    <insert id="insertFood" parameterType="FoodDTO">
+        INSERT INTO FOOD (
+            ID, 
+            NAME, 
+            CATEGORY, 
+            RATING, 
+            MEMO, 
+            EAT_DATE, 
+            CREATED_AT
+        ) VALUES (
+            FOOD_SEQ.NEXTVAL, 
+            #{name}, 
+            #{category}, 
+            #{rating}, 
+            #{memo}, 
+            #{eatDate}, 
+            SYSDATE
+        )
+    </insert>
+
+    <select id="selectAllFoods" resultType="FoodDTO">
+        SELECT ID
+             , NAME
+             , CATEGORY
+             , RATING
+             , MEMO
+             , EAT_DATE
+             , CREATED_AT 
+          FROM FOOD 
+         ORDER BY EAT_DATE DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>오늘 뭐 먹지? 목록</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+      }
+      .rating {
+        color: gold;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>오늘 뭐 먹지? 기록장</h2>
+    <a th:href="@{/food/add}">[새 음식 등록]</a>
+    <hr />
+    <table>
+      <thead>
+        <tr>
+          <th>번호</th>
+          <th>음식명</th>
+          <th>카테고리</th>
+          <th>평점</th>
+          <th>날짜</th>
+          <th>메모</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="food : ${foods}">
+          <td th:text="${food.id}">1</td>
+          <td th:text="${food.name}">비빔밥</td>
+          <td th:text="${food.category}">한식</td>
+          <td class="rating" th:text="${'★'.repeat(food.rating)}">★★★</td>
+          <td th:text="${food.eatDate}">2026-04-21</td>
+          <td th:text="${food.memo}">맛있어요</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
