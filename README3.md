@@ -93,7 +93,7 @@ StudyGroup
   - 입력검증 파라미터 다음에 BindingResult가 위치해야 함!
   - @Valid CommentForm commentForm, BindingResult bindingResult, ...
 
-- [ ] 스터디 신청 문제
+- [x] 스터디 신청 문제
   - 중복신청 알림 없음
   - 신청 후 메시지 없음
 
@@ -112,3 +112,5 @@ StudyGroup
 
 - 미니프로젝트 팀 구성
 - 미니프로젝트 주제
+
+## 14일차
