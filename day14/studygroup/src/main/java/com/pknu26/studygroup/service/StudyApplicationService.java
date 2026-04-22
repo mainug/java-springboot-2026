@@ -70,13 +70,45 @@ public class StudyApplicationService {
         return studyApplicationMapper.findById(applicationId);
     }
 
-    // 신청 승인 로직
-    public void approve(Long applicationId) {
+    // 260422. 스터디 신청 제약을 위해서 studyPost 도 전달
+    public void approve(Long applicationId, StudyPost post) {
+        // 스터디포스트 상태가 마감이면 더이상 승인불가
+        if ("CLOSED".equals(post.getStatus())) {
+            throw new IllegalArgumentException("모집이 마감되었습니다.");
+        }
+
+        // 전체 멤버수를 넘어서는 신청은 거부
+        int approvedCount = this.studyApplicationMapper.countByPostIdApproved(post.getPostId());
+
+        if (approvedCount >= post.getMaxMembers()) {
+            throw new IllegalArgumentException("모집인원이 다 찼습니다.");
+        }
+
+        // 전체 멤버수를 채우는 신청의 경우는 게시글포스트의 상태를 CLOSED로 변경
+        // 신청 승인 로직
         studyApplicationMapper.updateStatus(applicationId, "APPROVED");
+
+        // 승인 후 다시 카운트
+        approvedCount = this.studyApplicationMapper.countByPostIdApproved(post.getPostId());
+        // 정원이 다 찼으면 CLOSED
+        if (approvedCount >= post.getMaxMembers()) {
+            // 상태만 바꾸는 메서드 추가
+            this.studyPostMapper.updatePostStatus(post.getPostId(), "CLOSED");
+        }
     }
 
-    // 신청 거부 로직
-    public void reject(Long applicationId) {
+    // 260422. 스터디 거절후 상태 변경 로직추가
+    public void reject(Long applicationId, StudyPost post) {
+        // 거절처리
         studyApplicationMapper.updateStatus(applicationId, "REJECTED");
+
+        // 거절 후 승인인원 재조회
+        int approvedCount = this.studyApplicationMapper.countByPostIdApproved(post.getPostId());
+
+        // 승인인원이 정원보다 적으면 다시 OPEN
+        if (approvedCount < post.getMaxMembers()) {
+            // 상태를 OPEN으로 변경
+            this.studyPostMapper.updatePostStatus(post.getPostId(), "OPEN");
+        }
     }
 }

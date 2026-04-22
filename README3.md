@@ -87,23 +87,37 @@ StudyGroup
   - controller, StudyApplicationController 클래스
   - html, post/detail.html 화면 추가
 
+## 14일차
+
 #### 필요이슈
 
 - [x] 컨트롤러 post 메서드 파라미터 순서 중요
   - 입력검증 파라미터 다음에 BindingResult가 위치해야 함!
   - @Valid CommentForm commentForm, BindingResult bindingResult, ...
-
-- [x] 스터디 신청 문제
+- [x] 스터디 신청 문제 - 신청리스트 띄워서 일단 반정도 완료
   - 중복신청 알림 없음
   - 신청 후 메시지 없음
+- [x] 각 입력폼 에러메시지 디자인 통일
+  - 글로벌 에러는 alert 디자인으로
+  - 각 입력별 에러메시지는 단순 빨간색으로
+- [x] 전체 인원이 2명인데 3명 승인 가능
+- [x] 승인한 멤버에 대해서 다시 거절하는 기능
+- [x] 인원이 전부 신청승인되고나면 스터디포스트 자체 상태가 CLOSED 가 되어야 함
+- [x] 마감된 스터디에 신청버튼이 존재
 
+- [ ] 스터디포스트 페이징
+  - BoardMapper.xml 참조해서 StudyPostMapper.xml findAll 메서드 변경
+  - BoardServiceImpl 클래스 참조해서 StudyPostService 클래스 getPostList 메서드 변경
+  - StudyPostController 클래스 수정
+  - templates/post/list.html 페이징 추가
+
+- [ ] 게시판 댓글 등록 오류메시지 미출력
 - home.html 관리자 관리할 화면 생성
 - home.html 동적바인딩
 - 기존 게시판 상세 디자인 StudyPost 상세 형태로 변경
 - 로그아웃 후 home으로 이동
 - 에러페이지 필요
 - [x] Join, Login.html 버튼 디자인 변경
-- 스터디포스트 페이징
 - 전체 푸터 작업
 - 파일 업로드
 - Spring Security
@@ -112,5 +126,3 @@ StudyGroup
 
 - 미니프로젝트 팀 구성
 - 미니프로젝트 주제
-
-## 14일차

@@ -29,6 +29,13 @@
            AND user_id = #{userId}
     </select>
 
+    <select id="countByPostIdApproved" parameterType="long" resultType="int">
+        SELECT COUNT(*)
+          FROM study_applications
+         WHERE post_id = #{postId}
+           AND status = 'APPROVED'
+    </select>
+
     <select id="findByPostId" parameterType="long" resultType="StudyApplication">
         SELECT a.application_id
              , a.post_id

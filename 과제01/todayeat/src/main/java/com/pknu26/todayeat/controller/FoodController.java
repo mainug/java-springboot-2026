@@ -23,16 +23,16 @@ public class FoodController {
 
     // 음식 목록 조회
     @GetMapping("/food/list")
-    public String list(Model model) {
-        List<FoodDTO> foods = foodMapper.selectAllFoods();
+    public String list(@RequestParam(defaultValue = "eatDate") String orderBy, 
+                    Model model) {
+        // 1. 매퍼를 통해 정렬된 리스트를 가져옵니다.
+        List<FoodDTO> foods = foodMapper.selectAll(orderBy);
+        
+        // 2. 뷰(Thymeleaf)로 데이터를 전달합니다.
         model.addAttribute("foods", foods);
-        return "food/list";
-    }
-
-    // 등록 페이지 이동
-    @GetMapping("/food/add")
-    public String addForm() {
-        return "food/add";
+        model.addAttribute("currentOrder", orderBy);
+        
+        return "food/list"; // templates/food/list.html
     }
 
     // 음식 정보 등록 실행

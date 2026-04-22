@@ -275,6 +275,39 @@
         color: #444;
       }
 
+      /* 정렬 버튼 그룹 스타일 */
+      .sort-group {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      .sort-link {
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #666;
+        background: #fff;
+        border: 1px solid #e3e6eb;
+        transition: all 0.2s ease;
+      }
+
+      .sort-link:hover {
+        background: #fdf2e9;
+        border-color: #ff8a3d;
+        color: #ff8a3d;
+      }
+
+      /* 활성화된 버튼 스타일 (현재 정렬 기준 표시) */
+      .sort-link.active {
+        background: #ff8a3d;
+        border-color: #ff8a3d;
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(255, 138, 61, 0.25);
+      }
+
       @media (max-width: 768px) {
         .container {
           padding: 28px 14px 90px;
@@ -313,7 +346,31 @@
     <div class="container">
       <div class="page-header">
         <h1 class="page-title">오늘 뭐 먹지? 기록장</h1>
-        <div class="page-subtitle">먹었던 음식들을 날짜별로 정리해보세요.</div>
+        <div class="page-subtitle">먹었던 음식들을 확인해보세요.</div>
+      </div>
+
+      <div class="sort-group">
+        <a
+          th:href="@{/food/list(orderBy='category')}"
+          class="sort-link"
+          th:classappend="${currentOrder == 'category'} ? 'active' : ''"
+        >
+          카테고리순
+        </a>
+        <a
+          th:href="@{/food/list(orderBy='rating')}"
+          class="sort-link"
+          th:classappend="${currentOrder == 'rating'} ? 'active' : ''"
+        >
+          평점순
+        </a>
+        <a
+          th:href="@{/food/list(orderBy='eatDate')}"
+          class="sort-link"
+          th:classappend="${currentOrder == 'eatDate' or currentOrder == null} ? 'active' : ''"
+        >
+          날짜순
+        </a>
       </div>
 
       <div class="card" th:if="${!#lists.isEmpty(foods)}">
@@ -321,7 +378,6 @@
           <table>
             <thead>
               <tr>
-                <th>번호</th>
                 <th>음식명</th>
                 <th>카테고리</th>
                 <th>평점</th>
@@ -331,7 +387,6 @@
             </thead>
             <tbody>
               <tr th:each="food : ${foods}">
-                <td th:text="${food.id}">1</td>
                 <td class="food-name" th:text="${food.name}">비빔밥</td>
                 <td>
                   <span class="category-badge" th:text="${food.category}"

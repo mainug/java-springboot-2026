@@ -35,6 +35,10 @@
           <td th:text="${post.maxMembers}"></td>
         </tr>
         <tr>
+          <th>상태</th>
+          <td th:text="${post.status}"></td>
+        </tr>
+        <tr>
           <th>조회수</th>
           <td th:text="${post.viewCount}"></td>
         </tr>
@@ -163,7 +167,7 @@
         <div class="mt-2 text-end">
           <!-- 승인 및 거절 버튼영역-->
           <form
-            th:if="${apply.status == 'PENDING'}"
+            th:if="${(apply.status == 'PENDING' or apply.status == 'REJECTED') and post.status == 'OPEN'}"
             th:action="@{|/application/approve/${apply.applicationId}}"
             method="post"
             style="display: inline"
@@ -172,12 +176,12 @@
           </form>
 
           <form
-            th:if="${apply.status == 'PENDING'}"
+            th:if="${apply.status == 'PENDING' or apply.status == 'APPROVED'}"
             th:action="@{|/application/reject/${apply.applicationId}}"
             method="post"
             style="display: inline"
           >
-            <button type="submit" class="btn btn-sm btn-success">승인</button>
+            <button type="submit" class="btn btn-sm btn-danger">거절</button>
           </form>
         </div>
       </div>
@@ -185,9 +189,16 @@
 
     <h4>스터디 신청</h4>
     <div
+      th:if="${message}"
+      class="alert alert-danger"
+      th:text="${message}"
+    ></div>
+
+    <div
       th:if="${session.loginUser != null and session.loginUser.userId != post.userId}"
     >
       <form
+        th:if="${session.loginUser.userId != post.userId}"
         th:action="@{/application/create}"
         th:object="${studyApplicationForm}"
         method="post"
@@ -198,12 +209,12 @@
 
         <input type="hidden" th:field="*{postId}" />
 
-        <div class="class=mb-2">
+        <div class="mb-2">
           <textarea
             th:field="*{message}"
             class="form-control"
-            rows="1"
-            placeholder="신청메시지를 입력하세요"
+            rows="2"
+            placeholder="신청 메시지를 입력하세요 (예: 참여 동기, 각오 등)"
           ></textarea>
         </div>
 
@@ -213,12 +224,22 @@
           th:errors="*{message}"
         ></div>
 
-        <div
-          th:if="${session.loginUser != null and session.loginUser.userId == post.userId}"
-        >
-          본인 포스트에는 신청할 수 없습니다
+        <!-- 스터디 게시글 모집 상태가 CLOSED면 버튼을 숨김 -->
+        <div class="text-end" th:unless="${post.status == 'CLOSED'}">
+          <button type="submit" class="btn btn-primary">신청하기</button>
         </div>
       </form>
+
+      <div
+        th:if="${session.loginUser.userId == post.userId}"
+        class="alert alert-secondary"
+      >
+        본인이 작성한 스터디에는 신청할 수 없습니다.
+      </div>
+    </div>
+
+    <div th:unless="${session.loginUser != null}" class="alert alert-warning">
+      스터디 신청을 하려면 <a th:href="@{/user/login}">로그인</a>이 필요합니다.
     </div>
   </div>
 

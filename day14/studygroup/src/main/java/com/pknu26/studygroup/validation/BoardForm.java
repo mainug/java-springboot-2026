@@ -16,8 +16,6 @@ public class BoardForm {
     @NotBlank(message = "내용은 필수입니다")
     private String content;
 
-    @NotBlank(message = "작성자는 필수입니다")
-    @Size(max = 20, message = "작성자는 20자 이하로 입력하세요")
     private String writer;
 
     private String writerId;  // 작성자 아이디(계정 아이디: pknu\...)

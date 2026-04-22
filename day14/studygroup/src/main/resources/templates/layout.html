@@ -33,7 +33,7 @@
     />
     <script th:src="@{/js/color-modes.js}"></script>
   </head>
-  <body>
+  <body class="d-flex flex-column min-vh-100">
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
       <symbol id="check2" viewBox="0 0 16 16">
         <path
@@ -215,7 +215,16 @@
         </div>
       </div>
     </nav>
-    <main th:replace="${content}"></main>
+    <main th:replace="${content}" class="flex-fill"></main>
+
+    <!-- FOOTER -->
+    <footer class="container mt-auto">
+      <p class="float-end"><a href="#">Back to top</a></p>
+      <p>
+        &copy; 2026 PKNU University. &middot;
+        <a href="#">Privacy</a> &middot; <a href="#">Terms</a>
+      </p>
+    </footer>
 
     <!-- <script th:src="@{/bootstrap-5.3.8-dist/js/bootstrap.min.js}"></script> -->
     <script

@@ -10,11 +10,15 @@ import com.pknu26.studygroup.dto.StudyApplication;
 @Mapper
 public interface StudyApplicationMapper {
 
+    //신청 등록
     void insertApplication(StudyApplication studyApplication);
 
     // 신청 여부 카운트
     int countByPostIdAndUserId(@Param("postId") Long postId,
                                @Param("userId") Long userId);
+
+    //승인 상태인 신청 건수 확인
+    int countByPostIdApproved(Long postId);
 
     // 스터디 게시글에 해당하는 신청 목록 조회
     List<StudyApplication> findByPostId(Long postId);

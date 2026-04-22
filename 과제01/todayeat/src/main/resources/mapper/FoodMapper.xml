@@ -25,16 +25,26 @@
         )
     </insert>
 
-    <select id="selectAllFoods" resultType="FoodDTO">
+    <select id="selectAll" parameterType="string" resultType="FoodDTO">
         SELECT ID
-             , NAME
-             , CATEGORY
-             , RATING
-             , MEMO
-             , EAT_DATE
-             , CREATED_AT 
-          FROM FOOD 
-         ORDER BY EAT_DATE DESC
+            , NAME
+            , CATEGORY
+            , RATING
+            , MEMO
+            , EAT_DATE
+            , CREATED_AT
+        FROM FOOD
+        <choose>
+            <when test="orderBy == 'category'">
+                ORDER BY CATEGORY ASC, EAT_DATE DESC
+            </when>
+            <when test="orderBy == 'rating'">
+                ORDER BY RATING DESC, EAT_DATE DESC
+            </when>
+            <otherwise>
+                ORDER BY EAT_DATE DESC
+            </otherwise>
+        </choose>
     </select>
 
 </mapper>

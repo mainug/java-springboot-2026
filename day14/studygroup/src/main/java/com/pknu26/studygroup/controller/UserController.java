@@ -93,6 +93,6 @@ public class UserController {
     @PostMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();  // 세션정보 날리기
-        return "redirect:/board/list";
+        return "redirect:/";
     }
 }

@@ -82,7 +82,7 @@ public class BoardController {
     // #PRC04 - 폼화면에서 저장버튼 누르면 발생.
     // BoardForm 입력검증 클래스, BindingResult 검증처리
     @PostMapping("/create") 
-    public String create(@Valid BoardForm boardForm, BindingResult bindingResult) {
+    public String create(@Valid BoardForm boardForm, BindingResult bindingResult, HttpSession session) {
         // #PRC05 - 입력에 에러가 있으면 다시 폼화면으로 이동
         if (bindingResult.hasErrors()) {
             return "/board/form";

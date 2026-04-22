@@ -17,13 +17,15 @@
       <input type="hidden" th:field="*{categoryId}" />
 
       <div class="row">
-        <label for="categoryName" class="form-label">카테고리명</label>
-        <input
-          type="text"
-          id="categoryName"
-          th:field="*{categoryName}"
-          class="form-control"
-        />
+        <div class="col">
+          <label for="categoryName" class="form-label">카테고리명</label>
+          <input
+            type="text"
+            id="categoryName"
+            th:field="*{categoryName}"
+            class="form-control"
+          />
+        </div>
       </div>
       <div
         class="error alert alert-danger"

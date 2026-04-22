@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pknu26.studygroup.dto.PageRequest;
+import com.pknu26.studygroup.dto.PageResponse;
 import com.pknu26.studygroup.dto.StudyPost;
 import com.pknu26.studygroup.mapper.StudyPostMapper;
 import com.pknu26.studygroup.validation.StudyPostForm;
@@ -15,9 +17,18 @@ public class StudyPostService {
     @Autowired
     private StudyPostMapper studyPostMapper;
 
-    public List<StudyPost> getPostList() {
-        return this.studyPostMapper.findAll();
-    }
+    // public List<StudyPost> getPostList() {
+    //     return this.studyPostMapper.findAll();
+    // }
+
+    public PageResponse<StudyPost> getPostList(PageRequest pageRequest) {
+    List<StudyPost> postList =
+            this.studyPostMapper.findAll(pageRequest.getOffset(), pageRequest.getSize());
+
+    int totalCount = this.studyPostMapper.getTotalCount();
+
+    return new PageResponse<>(postList, totalCount, pageRequest.getPage(), pageRequest.getSize());
+}
 
     public StudyPost getPostDetail(Long postId) {
         this.studyPostMapper.increaseViewCount(postId);

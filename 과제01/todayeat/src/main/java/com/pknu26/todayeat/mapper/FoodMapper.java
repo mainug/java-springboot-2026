@@ -11,6 +11,6 @@ public interface FoodMapper {
 
     void insertFood(FoodDTO food);
 
-    List<FoodDTO> selectAllFoods();
+    List<FoodDTO> selectAll(String orderBy);
     
 }

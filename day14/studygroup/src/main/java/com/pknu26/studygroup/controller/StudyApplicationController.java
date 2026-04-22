@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pknu26.studygroup.dto.LoginUser;
 import com.pknu26.studygroup.dto.StudyApplication;
@@ -53,11 +54,8 @@ public class StudyApplicationController {
 
             model.addAttribute("commentForm", commentForm);
             model.addAttribute("applicationList", this.studyApplicationService.getApplicationListByPostId(postId));
-
-            StudyApplicationForm studyApplicationForm = new StudyApplicationForm();
-            studyApplicationForm.setPostId(postId);
-            studyApplicationForm.setUserId(loginUser.getUserId());
-            model.addAttribute("studyApplicationForm", studyApplicationForm);
+            // 화면에서 넘어온 form 그대로 전달
+            model.addAttribute("studyApplicationForm", form);
 
             return "/post/detail";
         }
@@ -67,7 +65,7 @@ public class StudyApplicationController {
             this.studyApplicationService.apply(form);
             
         } catch (IllegalArgumentException e) {
-            bindingResult.reject("error", "아이디 또는 패스워드가 올바르지 않습니다");
+            bindingResult.reject("error", "이미 신청되었습니다.");
             
             // 오류가 났기 때문에 model값들을 /post/detail.html에 초기화, 전달해줘야 함
             model.addAttribute("post", this.studyPostService.getPostDetail(postId));
@@ -91,9 +89,11 @@ public class StudyApplicationController {
     }
 
     // 스터디 신청 승인
+    // 260422. 신청예외발생시 오류메시지 전달용 RedirectAttributes 파라미터 추가
     @PostMapping("/approve/{applicationId}")
     public String approve(@PathVariable Long applicationId,
-                          HttpSession session) {
+                          HttpSession session,
+                          RedirectAttributes redirectAttributes) {
         LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
         if (loginUser == null) {
             return "redirect:/user/login";
@@ -113,7 +113,13 @@ public class StudyApplicationController {
             return "redirect:/studypost/detail/" + application.getPostId();
         }
 
-        this.studyApplicationService.approve(applicationId);
+        try {
+            // postId도 같이 넘겨서 모집인원이 넘어가면 더이상 승인이 안되도록 할 것
+            this.studyApplicationService.approve(applicationId, post);
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+        }
+        
         return "redirect:/studypost/detail/" + application.getPostId();
     }
     
@@ -140,7 +146,7 @@ public class StudyApplicationController {
             return "redirect:/studypost/detail/" + application.getPostId();
         }
 
-        this.studyApplicationService.reject(applicationId);
+        this.studyApplicationService.reject(applicationId, post);
         return "redirect:/studypost/detail/" + application.getPostId();
     }
 }

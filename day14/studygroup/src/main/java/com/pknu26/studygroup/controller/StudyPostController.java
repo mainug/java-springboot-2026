@@ -3,14 +3,13 @@ package com.pknu26.studygroup.controller;
 import com.pknu26.studygroup.service.CommentService;
 import com.pknu26.studygroup.service.StudyApplicationService;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.pknu26.studygroup.dto.LoginUser;
+import com.pknu26.studygroup.dto.PageRequest;
 import com.pknu26.studygroup.dto.StudyPost;
 import com.pknu26.studygroup.service.CategoryService;
 import com.pknu26.studygroup.service.StudyPostService;
@@ -22,6 +21,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -39,17 +39,15 @@ public class StudyPostController {
     private final StudyApplicationService studyApplicationService;
 
     @GetMapping("/list")
-    public String list(Model model, HttpSession session) {
+    public String list(@ModelAttribute PageRequest pageRequest, Model model, HttpSession session) {
         LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
 
         if (loginUser == null) {
             return "redirect:/user/login"; // 로그인안한 사람은 게시판 글 못씀
         }
 
-        // TODO : 로그인한 사용자면 볼수 있도록 변경
-        List<StudyPost> postList = this.studyPostService.getPostList();
-
-        model.addAttribute("postList", postList);
+        // 페이징으로 변경 후
+        model.addAttribute("response", this.studyPostService.getPostList(pageRequest));
         return "/post/list";  // templates/post/list.html 
     }
     
