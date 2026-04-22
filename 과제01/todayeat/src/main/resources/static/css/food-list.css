@@ -1,0 +1,373 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Pretendard", "Malgun Gothic", sans-serif;
+  background: linear-gradient(180deg, #fff8f0 0%, #f7f9fc 100%);
+  color: #222;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 20px 100px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 800;
+  color: #222;
+}
+
+.page-subtitle {
+  margin-top: 10px;
+  color: #666;
+  font-size: 15px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #fff3e8;
+}
+
+th {
+  padding: 18px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #444;
+  text-align: center;
+  border-bottom: 1px solid #f0e2d4;
+  white-space: nowrap;
+}
+
+td {
+  padding: 16px 14px;
+  font-size: 14px;
+  text-align: center;
+  border-bottom: 1px solid #f3f3f3;
+  vertical-align: middle;
+}
+
+tbody tr:hover {
+  background: #fffaf5;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.food-name {
+  font-weight: 700;
+  color: #222;
+}
+
+.category-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #f4f6f8;
+  font-size: 13px;
+  font-weight: 700;
+  color: #555;
+}
+
+.rating {
+  color: #ffb400;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+
+.memo {
+  max-width: 260px;
+  margin: 0 auto;
+  color: #555;
+  word-break: keep-all;
+}
+
+.empty-box {
+  padding: 70px 20px;
+  text-align: center;
+}
+
+.empty-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.empty-text {
+  color: #777;
+  font-size: 15px;
+}
+
+.fab {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  width: 68px;
+  height: 68px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff8a3d, #ff5e57);
+  color: #fff;
+  font-size: 38px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 28px rgba(255, 94, 87, 0.35);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+  z-index: 1000;
+}
+
+.fab:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 16px 32px rgba(255, 94, 87, 0.42);
+}
+
+.fab:active {
+  transform: scale(0.98);
+}
+
+/* 모달 */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 560px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.2);
+  padding: 28px 24px;
+  position: relative;
+}
+
+.modal-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.modal-subtitle {
+  margin: 0 0 24px;
+  color: #777;
+  font-size: 14px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  cursor: pointer;
+  color: #666;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #444;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid #e3e6eb;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 15px;
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  background: #fff;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #ff8a3d;
+  box-shadow: 0 0 0 4px rgba(255, 138, 61, 0.12);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn {
+  flex: 1;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ff8a3d, #ff5e57);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: #f3f5f7;
+  color: #444;
+}
+
+/* 정렬 버튼 그룹 스타일 */
+.sort-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.sort-link {
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  background: #fff;
+  border: 1px solid #e3e6eb;
+  transition: all 0.2s ease;
+}
+
+.sort-link:hover {
+  background: #fdf2e9;
+  border-color: #ff8a3d;
+  color: #ff8a3d;
+}
+
+/* 활성화된 버튼 스타일 (현재 정렬 기준 표시) */
+.sort-link.active {
+  background: #ff8a3d;
+  border-color: #ff8a3d;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(255, 138, 61, 0.25);
+}
+
+.btn-delete-selected {
+  padding: 10px 20px;
+  background-color: #fff;
+  color: #ff5e57;
+  border: 1px solid #ff5e57;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-delete-selected:hover {
+  background-color: #ff5e57;
+  color: #fff;
+}
+
+/* 체크박스 스타일 살짝 조정 */
+input[type="checkbox"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+/* 취소 버튼 애니메이션 */
+#btnCancel {
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all 0.2s ease;
+  display: none; /* JS에서 block으로 변경 후 opacity 제어 */
+}
+
+#btnCancel.show {
+  display: inline-block;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 28px 14px 90px;
+  }
+
+  .page-title {
+    font-size: 26px;
+  }
+
+  th,
+  td {
+    padding: 13px 10px;
+    font-size: 13px;
+  }
+
+  .memo {
+    max-width: 180px;
+    font-size: 13px;
+  }
+
+  .fab {
+    width: 60px;
+    height: 60px;
+    right: 18px;
+    bottom: 18px;
+    font-size: 34px;
+  }
+
+  .button-row {
+    flex-direction: column;
+  }
+}

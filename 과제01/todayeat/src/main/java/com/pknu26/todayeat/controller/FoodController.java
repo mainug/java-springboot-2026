@@ -41,4 +41,5 @@ public class FoodController {
         foodMapper.insertFood(foodDTO);
         return "redirect:/food/list";
     }
+
 }
