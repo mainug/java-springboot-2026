@@ -41,37 +41,77 @@
           <table>
             <thead>
               <tr>
-                <th>음식명</th>
-                <th>카테고리</th>
-                <th>평점</th>
-                <th>날짜</th>
+                <th
+                  th:classappend="${currentOrder == 'name' ? 'highlight-column' : ''}"
+                >
+                  음식명
+                </th>
+                <th
+                  th:classappend="${currentOrder == 'category' ? 'highlight-column' : ''}"
+                >
+                  카테고리
+                </th>
+                <th
+                  th:classappend="${currentOrder == 'rating' ? 'highlight-column' : ''}"
+                >
+                  평점
+                </th>
+                <th
+                  th:classappend="${currentOrder == 'eatDate' ? 'highlight-column' : ''}"
+                >
+                  날짜
+                </th>
                 <th>메모</th>
                 <th class="col-action">관리</th>
               </tr>
             </thead>
             <tbody>
               <tr th:each="food : ${foods}">
-                <td class="food-name" th:text="${food.name}">비빔밥</td>
-                <td>
+                <td
+                  class="food-name"
+                  th:classappend="${currentOrder == 'name' ? 'highlight-column' : ''}"
+                  th:text="${food.name}"
+                >
+                  비빔밥
+                </td>
+                <td
+                  th:classappend="${currentOrder == 'category' ? 'highlight-column' : ''}"
+                >
                   <span class="category-badge" th:text="${food.category}"
                     >한식</span
                   >
                 </td>
-                <td class="rating" th:text="${'★'.repeat(food.rating)}">
+                <td
+                  class="rating"
+                  th:classappend="${currentOrder == 'rating' ? 'highlight-column' : ''}"
+                  th:text="${'★'.repeat(food.rating)}"
+                >
                   ★★★★★
                 </td>
-                <td th:text="${food.eatDate}">2026-04-21</td>
-                <td>
-                  <div class="memo" th:text="${food.memo}">맛있어요</div>
+                <td
+                  th:classappend="${currentOrder == 'eatDate' ? 'highlight-column' : ''}"
+                  th:text="${food.eatDate}"
+                >
+                  2026-04-23
                 </td>
+                <td><div class="memo" th:text="${food.memo}">맛있어요</div></td>
                 <td>
-                  <a
-                    th:href="@{/food/delete/{id}(id=${food.id})}"
-                    class="btn-delete"
-                    onclick="return confirm('정말 삭제하시겠습니까?');"
-                  >
-                    삭제
-                  </a>
+                  <div style="display: flex; gap: 8px; justify-content: center">
+                    <button
+                      type="button"
+                      class="btn-edit"
+                      th:onclick="'openEditModal(' + ${food.id} + ')'"
+                    >
+                      수정
+                    </button>
+                    <a
+                      th:href="@{/food/delete/{id}(id=${food.id})}"
+                      class="btn-delete"
+                      onclick="return confirm('정말 삭제하시겠습니까?');"
+                    >
+                      삭제
+                    </a>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -86,7 +126,12 @@
     </div>
 
     <!-- 플로팅 + 버튼 -->
-    <button type="button" class="fab" onclick="openModal()" title="음식 추가">
+    <button
+      type="button"
+      class="fab"
+      onclick="openAddModal()"
+      title="음식 추가"
+    >
       +
     </button>
 

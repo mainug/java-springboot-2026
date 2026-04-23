@@ -46,6 +46,7 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: auto;
 }
 
 thead {
@@ -153,6 +154,19 @@ tbody tr:last-child td {
 
 .fab:active {
   transform: scale(0.98);
+}
+
+/* 강조될 열 스타일 (애니메이션/트랜지션 모두 제거) */
+.highlight-column {
+  font-weight: normal !important;
+  background-color: #fff4eb !important; /* 클릭 즉시 이 색상으로 고정 */
+  color: #e67e22 !important;
+}
+
+/* 헤더 강조 스타일 */
+th.highlight-column {
+  background-color: #ffe5d0 !important;
+  border-bottom: 2px solid #ff8a3d !important;
 }
 
 /* 모달 */
@@ -302,41 +316,48 @@ textarea {
   box-shadow: 0 4px 12px rgba(255, 138, 61, 0.25);
 }
 
-.btn-delete-selected {
-  padding: 10px 20px;
-  background-color: #fff;
-  color: #ff5e57;
-  border: 1px solid #ff5e57;
-  border-radius: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
+.col-action {
+  width: 140px; /* 버튼 두 개가 들어갈 공간 확보 */
 }
 
-.btn-delete-selected:hover {
-  background-color: #ff5e57;
+/* 공통 버튼 베이스 */
+.btn-edit,
+.btn-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  min-width: 54px; /* 버튼 크기 균일화 */
+}
+
+/* 수정 버튼: 파란색 계열 */
+.btn-edit {
+  background: #fff;
+  border: 1px solid #e3e6eb;
+  color: #4a90e2;
+  padding: 6px 12px;
+  font-weight: 600;
+  font-size: 13px;
+  text-decoration: none;
+}
+.btn-edit:hover {
+  background: #4a90e2;
   color: #fff;
+  border-color: #4a90e2;
 }
 
-/* 체크박스 스타일 살짝 조정 */
-input[type="checkbox"] {
-  cursor: pointer;
-  width: 16px;
-  height: 16px;
+.btn-delete {
+  background: #fff;
+  border: 1px solid #ffe5e5;
+  color: #ff5e57;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
 }
-
-/* 취소 버튼 애니메이션 */
-#btnCancel {
-  opacity: 0;
-  transform: translateX(10px);
-  transition: all 0.2s ease;
-  display: none; /* JS에서 block으로 변경 후 opacity 제어 */
-}
-
-#btnCancel.show {
-  display: inline-block;
-  opacity: 1;
-  transform: translateX(0);
+.btn-delete:hover {
+  background: #ff5e57;
+  color: #fff;
 }
 
 @media (max-width: 768px) {

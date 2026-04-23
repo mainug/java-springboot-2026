@@ -12,5 +12,11 @@ public interface FoodMapper {
     void insertFood(FoodDTO food);
 
     List<FoodDTO> selectAll(String orderBy);
+
+    FoodDTO selectFoodById(Long id);
+
+    void updateFood(FoodDTO foodDTO);
+
+    void deleteFood(Long id);
     
 }

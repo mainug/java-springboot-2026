@@ -47,4 +47,31 @@
         </choose>
     </select>
 
+    <select id="selectFoodById" parameterType="long" resultType="com.pknu26.todayeat.dto.FoodDTO">
+        SELECT 
+            ID, 
+            NAME, 
+            CATEGORY, 
+            RATING, 
+            EAT_DATE, 
+            MEMO 
+        FROM FOOD 
+        WHERE ID = #{id}
+    </select>
+
+    <update id="updateFood" parameterType="FoodDTO">
+        UPDATE FOOD
+        SET NAME = #{name},
+            CATEGORY = #{category},
+            RATING = #{rating},
+            EAT_DATE = #{eatDate},
+            MEMO = #{memo}
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="deleteFood" parameterType="long">
+        DELETE FROM FOOD
+        WHERE ID = #{id}
+    </delete>
+
 </mapper>

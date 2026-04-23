@@ -1,0 +1,23 @@
+package com.pknu26.studygroup.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.pknu26.studygroup.dto.Category;
+
+@Mapper
+public interface CategoryMapper {
+    
+    List<Category> findAll();
+
+    Category findById(Long categoryId);
+
+    int countByName(String categoryName);
+
+    void insertCategory(Category category); 
+
+    void updateCategory(Category category);
+
+    void deleteCategory(Long categoryId);
+}

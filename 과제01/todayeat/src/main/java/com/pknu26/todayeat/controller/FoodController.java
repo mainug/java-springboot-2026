@@ -42,4 +42,24 @@ public class FoodController {
         return "redirect:/food/list";
     }
 
+    @GetMapping("/food/get/{id}")
+    @ResponseBody // 페이지 이동이 아니라 데이터만 JSON으로 보냄
+    public FoodDTO getFood(@PathVariable Long id) {
+        return foodMapper.selectFoodById(id);
+    }
+
+    // 수정한 데이터를 저장
+    @PostMapping("/food/update/{id}")
+    public String updateFood(@PathVariable("id") Long id, @ModelAttribute FoodDTO foodDTO) {
+        foodDTO.setId(id); // 경로에서 받은 ID를 DTO에 세팅
+        foodMapper.updateFood(foodDTO);
+        return "redirect:/food/list";
+    }
+
+    @GetMapping("/food/delete/{id}")
+    public String deleteFood(@PathVariable("id") Long id) {
+        foodMapper.deleteFood(id);
+        return "redirect:/food/list";
+    }
+
 }

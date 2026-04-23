@@ -89,6 +89,8 @@ StudyGroup
 
 ## 14일차
 
+![alt text](image-37.png)
+
 #### 필요이슈
 
 - [x] 컨트롤러 post 메서드 파라미터 순서 중요
@@ -123,6 +125,56 @@ StudyGroup
 - Spring Security
 - JWT
 - React와 연동
+
+![alt text](image-38.png)
+
+## 15일차
+
+### StudyGroup 계속
+
+#### 관리자 홈 관리 화면
+
+- Site 테이블 생성
+- dto, Site 클래스
+- validation, SiteForm 클래스
+- controller, SiteController 클래스
+- mapper, SiteMapper 인터페이스
+- templates/mapper, SiteMapper.xml
+- service, SiteService 클래스
+
+![alt text](image-40.png)
+
+- 이미지 관리
+  - application.properties 에 저장경로 설정!
+  - config, FileProperties 클래스 추가
+  - config, WebMvcConfig 클래스 추가
+  - Site_Image 테이블 생성
+  - dto, SiteImage 클래스
+  - validation, SiteImageForm 클래스
+  - mapper, SiteImageMapper 인터페이스
+  - templates/mapper, SiteImageMapper.xml
+  - service, SiteImageService 클래스
+  - controller, SiteImageController 클래스
+  - controller, HomeController home 메서드 수정
+
+#### 남은 이슈
+
+- [x] favicon 추가
+  - 자동인식방법 resources/static/favicon.ico
+  - png to ico 변환필요
+
+  ![alt text](image-46.png)
+
+- [x] 에러페이지 필요 - 디자인만 잘하면 됨
+  - 404 에러 : Page Not Found
+  - 500 에러 : Internal Server Error
+
+- home.html 관리자 관리할 화면 생성
+  - Hero 이미지 : 웹 전체 화면을 채우는 배경이미지
+  - Carousel : 이미지가 일정시간마다 전환, 또는 버튼클릭으로 전환되는 디자인
+  - 현재 화면
+
+  ![alt text](image-39.png)
 
 - 미니프로젝트 팀 구성
 - 미니프로젝트 주제

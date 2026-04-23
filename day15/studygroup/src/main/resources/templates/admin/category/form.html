@@ -1,0 +1,59 @@
+<!doctype html>
+<html
+  lang="ko"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layout :: layout(~{::content}, ~{})}"
+>
+  <div th:fragment="content" class="container my-3">
+    <h3
+      th:text="${categoryForm.categoryId != null} ? '카테고리 수정' : '카테고리 등록'"
+    ></h3>
+
+    <form
+      th:object="${categoryForm}"
+      th:action="*{categoryId != null} ? @{|/admin/categories/edit/*{categoryId}|} : @{/admin/categories/create}"
+      method="post"
+    >
+      <input type="hidden" th:field="*{categoryId}" />
+
+      <div class="row">
+        <div class="col">
+          <label for="categoryName" class="form-label">카테고리명</label>
+          <input
+            type="text"
+            id="categoryName"
+            th:field="*{categoryName}"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div
+        class="error alert alert-danger"
+        th:if="${#fields.hasErrors('categoryName')}"
+        th:errors="*{categoryName}"
+      ></div>
+
+      <div class="row mt-2">
+        <div class="col">
+          <div class="text-end">
+            <button type="submit" class="btn btn-sm btn-primary">
+              <i class="bi bi-floppy"></i> 저장
+            </button>
+            <a
+              th:href="@{/admin/categories/list}"
+              class="btn btn-sm btn-success"
+            >
+              <i class="bi bi-list"></i> 목록
+            </a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script th:fragment="pageScripts">
+    $(function () {
+      // 카테고리 폼에는 에디터가 필요 없으면 비워두셔도 됩니다.
+    });
+  </script>
+</html>
