@@ -157,6 +157,8 @@ StudyGroup
   - controller, SiteImageController 클래스
   - controller, HomeController home 메서드 수정
 
+## 16일차
+
 #### 남은 이슈
 
 - [x] favicon 추가
