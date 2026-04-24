@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.pknu26.studygroup.dto.LoginUser;
+import com.pknu26.studygroup.config.AdminHelper;
 import com.pknu26.studygroup.service.SiteImageService;
 import com.pknu26.studygroup.validation.SiteImageForm;
 
@@ -25,7 +25,7 @@ public class SiteImageController {
 
     @GetMapping("/list")
     public String list(Model model, HttpSession session) {
-        checkAdmin(session);
+        AdminHelper.checkAdmin(session);
 
         model.addAttribute("imageList", this.siteImageService.getImageList());
         return "/admin/siteImage/list"; // list.html 출력
@@ -33,7 +33,7 @@ public class SiteImageController {
 
     @GetMapping("/create")
     public String createForm(Model model, HttpSession session) {
-        checkAdmin(session);
+        AdminHelper.checkAdmin(session);
 
         SiteImageForm form = new SiteImageForm();
         form.setUseYn("Y");
@@ -44,7 +44,7 @@ public class SiteImageController {
 
     @PostMapping("/create")
     public String create(@Valid SiteImageForm form, BindingResult bindingResult, Model model, HttpSession session) {
-        checkAdmin(session);
+        AdminHelper.checkAdmin(session);
 
         if (bindingResult.hasErrors()) {
             return "/admin/siteImage/form";
@@ -68,16 +68,6 @@ public class SiteImageController {
         this.siteImageService.delete(id);
 
         return "redirect:/admin/image/list";
-    }
-
-    // 한번더 관리자 체크
-    private void checkAdmin(HttpSession session) {
-        LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
-
-        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {            
-            throw new RuntimeException("관리자만 접근할 수 있습니다.");
-            // TODO : 에러페이지 추가 필요!
-        }
     }
     
 }

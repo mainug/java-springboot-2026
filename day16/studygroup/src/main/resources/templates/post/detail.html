@@ -76,6 +76,7 @@
         <button
           type="submit"
           class="btn btn-sm btn-danger"
+          onclick="return confirm('정말 삭제하시겠습니까?');"
           th:if="${session.loginUser != null and (session.loginUser.userId == post.userId or session.loginUser.role == 'ROLE_ADMIN')}"
         >
           <i class="bi bi-trash-fill"></i> 삭제

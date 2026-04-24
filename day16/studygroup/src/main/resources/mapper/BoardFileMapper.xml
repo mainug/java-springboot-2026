@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pknu26.studygroup.mapper.BoardFileMapper">
+    <select id="findByBoardId" resultType="BoardFile">
+        SELECT 
+            file_id, 
+            board_id, 
+            original_name, 
+            save_name, 
+            file_path, 
+            created_at
+        FROM board_file
+        WHERE board_id = #{boardId}
+    </select>
+
+    <insert id="insertFile" parameterType="BoardFile">
+        INSERT INTO BOARD_FILE (
+            FILE_ID,
+            BOARD_ID,
+            ORIGINAL_NAME,
+            SAVE_NAME,
+            FILE_PATH,
+            CREATED_AT
+        ) VALUES (
+            board_file_seq.NEXTVAL, -- 파일용 시퀀스 새로 만드셔야 합니다!
+            #{boardId},
+            #{originalName},
+            #{saveName},
+            #{filePath},
+            SYSDATE
+        )
+    </insert>
+
+    <delete id="deleteFile" parameterType="long">
+        DELETE FROM BOARD_FILE WHERE FILE_ID = #{fileId}
+    </delete>
+
+    <delete id="deleteFilesByBoardId" parameterType="long">
+        DELETE FROM BOARD_FILE WHERE BOARD_ID = #{boardId}
+    </delete>
+</mapper>

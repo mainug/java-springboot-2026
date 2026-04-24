@@ -44,8 +44,12 @@
         WHERE b.BOARD_ID = #{boardId}
     </select>
     
-    <!-- #PRC14 - 전달된 Board 객체 값을 사용해서 쿼리를 실행 -->
-    <insert id="insertBoard" parameterType="Board">        
+    <insert id="insertBoard" parameterType="Board">
+    /* 1. insert를 실행하기 전에(BEFORE) 시퀀스 번호를 미리 가져옵니다. */
+        <selectKey keyProperty="boardId" resultType="long" order="BEFORE">
+            SELECT board_seq.NEXTVAL FROM DUAL
+        </selectKey>
+
         INSERT INTO BOARD (
             BOARD_ID, 
             TITLE,
@@ -53,7 +57,7 @@
             WRITER, 
             CREATED_AT
         ) VALUES (
-            board_seq.NEXTVAL, 
+            #{boardId}, /* 위에서 가로챈 번호를 여기서 사용합니다 */
             #{title},      
             #{content}, 
             #{writer}, 
