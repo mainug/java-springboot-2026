@@ -220,11 +220,25 @@ StudyGroup
 
 - 의존성 추가
 - 비밀번호 암호화 PasswordEncoder 등록
+- CustomUserDetails 생성
 - UserDetailsService 생성
 - SecurityConfig 생성
-- 로그인 페이지 연결
-- 권한별 URL 제한
+- 기존 UserController 수정
+- 로그인 페이지 수정
+- layout.html SpringSecurity thymeleaf 추가
+  - session.loginUser 제거
+  - sec:authorize 속성으로 변경
 - Thymeleaf 로그인/관리자 조건 처리
+
+```html
+<div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
+  <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+</div>
+```
+
+- 기타 Controller에서 session 파라미터 제거
+  - @AuthenticationPrincipal CustomUserDetail loginUser 로 변경
+  - 코드 상 LoginUser... 부분 주석처리
 
 #### Spring Security 개발
 
@@ -233,6 +247,28 @@ StudyGroup
 
   ![alt text](image-45.png)
 
+## 17일차
+
+### Spring Security
+
+#### build.gradle 적용
+
+- 서버 실행
+
+```powershell
+2026-04-27T09:19:15.043+09:00  WARN 25872 --- [studygroup] [  restartedMain] .s.a.
+UserDetailsServiceAutoConfiguration :
+# User 임시 패스워드
+Using generated security password: 2e87fa31-bb87-4b0f-afbb-db975c31dc00
+
+This generated password is for development use only. Your security configuration
+must be updated before running your application in production.
+```
+
+- Spring Security Crypto 라이브러리 -> 제거
+
+![alt text](image-46.png)
+
 ### JWT
 
 #### 개요
@@ -240,6 +276,23 @@ StudyGroup
 - JSON Web Token : 로그인 후에 서버에서 발급하는 토큰 기반의 인증방식
   - React, Node.js 등의 다른 프론트엔드와 연계하는 풀스택개발시 사용하는 인증방식
   - 서버에 세션을 저장안함, 토큰으로 인증 대체
+
+#### JWT 반영순서
+
+- 로그인 > JWT 발급 > 요청 시 JWT 검증 > 인증처리
+
+#### 진행순서
+
+- build.gradle 의존성 추가
+- application.properties JWT 설정 추가
+- config, JwtProvider 클래스 생성
+
+- dto/api, API 요청/응답용 dto 생성
+- security, JwtAuthenticationFilter 클래스 생성
+- controller, ApiAuthController 클래스 생성
+- config, SecurityConfig 수정
+
+- 테스트 컨트롤러
 
 #### 남은 이슈
 
