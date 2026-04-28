@@ -1,0 +1,141 @@
+<!doctype html>
+<html
+  lang="ko"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layout :: layout(~{::content}, ~{::pageScripts})}"
+>
+  <div th:fragment="content" class="container my-3">
+    <h3
+      th:text="${boardForm.boardId != null} ? '게시글 수정' : '게시글 등록'"
+    ></h3>
+
+    <form
+      th:object="${boardForm}"
+      th:action="${boardForm != null and boardForm.boardId != null} ? @{|/board/edit/${boardForm.boardId}|} : @{/board/create}"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="hidden" th:field="*{writerId}" />
+
+      <div class="row mb-3">
+        <div class="col">
+          <label for="title" class="form-label">제목</label>
+          <input
+            type="text"
+            id="title"
+            th:field="*{title}"
+            class="form-control"
+          />
+          <div class="text-danger mt-1" th:errors="*{title}"></div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col">
+          <label for="content" class="form-label">내용</label>
+          <textarea
+            id="content"
+            th:field="*{content}"
+            class="form-control"
+          ></textarea>
+          <div class="text-danger mt-1" th:errors="*{content}"></div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col">
+          <label for="files" class="form-label">첨부파일</label>
+          <input
+            type="file"
+            id="files"
+            name="files"
+            class="form-control"
+            multiple
+          />
+          <div class="form-text">여러 파일을 선택할 수 있습니다.</div>
+        </div>
+      </div>
+
+      <div
+        class="row mb-3"
+        th:if="${boardForm.boardId != null and not #lists.isEmpty(boardFiles)}"
+      >
+        <div class="col">
+          <label class="form-label text-primary"
+            >기존 첨부파일 (삭제 시 즉시 반영됩니다)</label
+          >
+          <ul class="list-group">
+            <li
+              th:each="file : ${boardFiles}"
+              class="list-group-item d-flex justify-content-between align-items-center py-1"
+              th:id="'file-item-' + ${file.fileId}"
+            >
+              <div
+                class="text-truncate me-3"
+                style="max-width: 70%"
+                th:title="${file.originalName}"
+              >
+                <i class="bi bi-paperclip"></i>
+                <span th:text="${file.originalName}">파일명.jpg</span>
+              </div>
+
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-danger flex-shrink-0"
+                th:onclick="|deleteExistingFile(${file.fileId})|"
+              >
+                <i class="bi bi-x-circle"></i> 삭제
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col">
+          <div class="text-end">
+            <button type="submit" class="btn btn-sm btn-primary">
+              <i class="bi bi-floppy"></i> 저장
+            </button>
+            <a th:href="@{/board/list}" class="btn btn-sm btn-success">
+              <i class="bi bi-list"></i> 목록
+            </a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script th:fragment="pageScripts">
+    $(function () {
+      $("#content").trumbowyg({
+        lang: "ko",
+      });
+    });
+  </script>
+
+  <script th:inline="javascript">
+    // form.html 스크립트 부분
+    function deleteExistingFile(fileId) {
+      if (!confirm("이 파일을 서버에서 영구히 삭제하시겠습니까?")) return;
+
+      $.ajax({
+        // url을 프로젝트 루트 기준으로 정확히 설정
+        url: "/board/deleteFile/" + fileId,
+        type: "POST",
+        success: function (result) {
+          if (result === "success") {
+            $("#file-item-" + fileId).remove();
+            alert("파일이 삭제되었습니다.");
+          } else {
+            alert("삭제 실패: " + result);
+          }
+        },
+        error: function (xhr) {
+          console.log(xhr.responseText);
+          alert("에러가 발생했습니다. 콘솔을 확인하세요.");
+        },
+      });
+    }
+  </script>
+</html>

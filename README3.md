@@ -284,6 +284,7 @@ must be updated before running your application in production.
 #### 진행순서
 
 - build.gradle 의존성 추가
+  - https://mvnrepository.com/ 에서 확인
 - application.properties JWT 설정 추가
 - config, JwtProvider 클래스 생성
 
@@ -293,6 +294,67 @@ must be updated before running your application in production.
 - config, SecurityConfig 수정
 
 - 테스트 컨트롤러
+
+## 18일차
+
+### JWT 계속
+
+#### CORS, CSRF
+
+- CORS : Cross-Origin Resource Sharing 프로토콜
+  - 서로 다른 오리진(서버)에서 리소스나 상호작용을 위해 브라우저에서 실행되는 스크립트
+  - 서버간에 통신시 기본 보호 기능
+  - com.pknu26.studygroup, com.pknu6.apiboard 둘 사이에 접근불가
+  - CORS로 오픈 설정 후
+
+- CSRF : Cross-Site Request Forgery 보안
+  - 명시적 동의없이 사용자를 대신 웹앱에서 악의적인 행동을 취하는 공격
+
+#### API 테스트
+
+- Postman 테스트
+
+  ![alt text](image-47.png)
+  - 로그인 실패하면 로그인화면으로 다시 돌아감
+  - 성공하면 json를 리턴
+
+  ```json
+  {
+    "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJJZCI6MSwibmFtZSI6ImFkbWluIiwicm9sZSI6IlJPTEVfQURNSU4iLCJpYXQiOjE3NzczNDQ4MDMsImV4cCI6MTc3NzM0ODQwM30.hOb6Y6Cf0sYYrwRbhoVPniCXsQse9j9gHTNMhJOaRM3xHLOz-Ir83TPLOuv3nzQG",
+    "loginId": "admin",
+    "name": "admin",
+    "role": "ROLE_ADMIN",
+    "tokenType": "Bearer",
+    "userId": 1
+  }
+  ```
+
+### 소셜 로그인
+
+#### 구글 로그인
+
+```text
+USER_ACCOUNT
+└ StudyGroup 사용자 계정
+
+Spring Security Form Login
+└ /user/login
+
+JWT API Login
+└ /api/auth/login
+
+추가할 Google Login
+└ /oauth2/authorization/google
+└ 성공 후 USER_ACCOUNT + USER_SOCIAL_ACCOUNT 저장
+```
+
+#### OAuth
+
+- Open Authorization : 아이디와 패스워드를 넘겨주지 않고, 다른 서비스의 기능을 안전하게 빌려쓰는 기술
+  - 구글, 네이버, 카카오, 페이스북, ...
+
+- OAuth 1.0 : 암호화방식 너무 복잡(암호화 지옥), 사용하기 어려움.
+- OAuth 2.0 : 복잡한 서명 삭제, 역할분담, 유연한 처리 가능
 
 #### 남은 이슈
 
@@ -319,3 +381,7 @@ must be updated before running your application in production.
 
 - 미니프로젝트 팀 구성
 - 미니프로젝트 주제
+
+```
+
+```
