@@ -356,6 +356,69 @@ JWT API Login
 - OAuth 1.0 : 암호화방식 너무 복잡(암호화 지옥), 사용하기 어려움.
 - OAuth 2.0 : 복잡한 서명 삭제, 역할분담, 유연한 처리 가능
 
+#### 소셜 로그인 구현
+
+- build.gradle 에 의존성 추가
+- 구글 개발자콘솔 로그인 : https://console.cloud.google.com/
+  - 새 프로젝트 생성
+
+    ![alt text](image-48.png)
+
+  - 프로젝트 선택 > 탐색메뉴(햄버거메뉴)
+  - API 및 서비스 > 라이브러리
+    - 사용자 인증 정보 > +사용자 인증 정보 만들기
+
+  - OAuth 동의화면 클릭 > 시작하기 클릭
+  - OAuth 클라이언트 ID 클릭
+
+    ![alt text](image-49.png)
+
+  - 작성 후 만들기 클릭
+
+    ![alt text](image-50.png)
+
+  - json 다운로드
+
+- application.properties 구글OAuth 정보 추가
+- powershell에서 구글클라이언트아이디와 비밀키를 윈도우 환경변수에 저장
+
+  ```powershell
+  # PowerShell을 이용한 OS 환경 변수 저장 (보안 유지)
+  PS C:\Users\Admin> setx GOOGLE_CLIENT_ID "본인_구글클라이언트_아이디"
+
+  성공: 지정한 값을 저장했습니다.
+  PS C:\Users\Admin> setx GOOGLE_CLIENT_SECRET "본인_구글클라리언트_시크릿키"
+
+  성공: 지정한 값을 저장했습니다.
+
+  # 파워 쉘 재시작 후 확인
+  PS C:\Users\Admin> echo $env:GOOGLE_CLIENT_ID
+  PS C:\Users\Admin> echo $env:GOOGLE_CLIENT_SECRET
+  ```
+
+- 소셜 로그인 연결용 DB 생성
+- 기존 로그인 테이블 password 필드 NOT NULL -> NULL 로 변경 (소셜로그인으로는 패스워드 전달안됨)
+
+- dto, UserSocialAccount 클래스
+- mapper, UserSocialAccountMapper 인터페이스
+- resources/mapper, UserSocialAccountMapper.xml
+- mapper, UserMapper 인터페이스에 신규 메서드 추가
+- resources/mapper, UserMapper.xml 신규 SQL 추가
+
+- OAuth2 구글로그인 서비스
+  - security, CustomOAuth2UserService 클래스
+    1. 구글 사용자 정보받기
+    2. provider = google
+    3. providerUserId = 구글 Subject
+    4. USER_SOCIAL_ACCOUNT 테이블에 이미 정보가 있으면 로그인처리
+    5. 없으면 USER_ACCOUNT 생성
+    6. USER_SOCIAL_ACCOUNT 생성
+    7. Spring Security 인증 처리
+
+- config, SecurityConfig에 OAuth2 Login 추가
+
+  ![alt text](image-51.png)
+
 #### 남은 이슈
 
 - [x] favicon 추가
