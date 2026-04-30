@@ -7,7 +7,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +24,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final UserMapper userMapper;
     private final UserSocialAccountMapper userSocialAccountMapper;
 
-    // OAuth2로 로그인 처리
+    // OAuth2로 로그인 처리 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         // DefaultOAuth2UserService를 사용해서 사용자정보 가져오기
@@ -33,8 +32,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // 로그인제공자가 누구인지 식별(Google, Kakao, Naver...)
         String provider = userRequest
-                .getClientRegistration()
-                .getRegistrationId();
+                            .getClientRegistration()
+                            .getRegistrationId();
 
         Map<String, Object> attributes = oauth2User.getAttributes();
 
@@ -56,16 +55,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user = userMapper.findByEmail(email);
 
             if (user == null) { // 기존 사용자도 없음, join 처리
-                Long userId = userMapper.nextUserId(); // User_Account 테이블의 PK값을 가져옴
+                Long userId = userMapper.nextUserId();  // User_Account 테이블의 PK값을 가져옴
 
                 user = new User();
                 user.setUserId(userId);
                 user.setLoginId(email); // LoginID 는 email 처리!!
-                user.setPassword(null); // 소셜로그인은 패스워드를 직접처리하지 않음!
-                user.setName(name);
+                user.setPassword(null);  // 소셜로그인은 패스워드를 직접처리하지 않음!
+                user.setName(name);                          
                 user.setRole("ROLE_USER");
 
-                userMapper.insertSocialuser(user); // 기존회원가입(join)과 방식이 다름
+                userMapper.insertSocialUser(user); // 기존회원가입(join)과 방식이 다름
             }
 
             // 소셜사용자계정도 DB저장
@@ -81,10 +80,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
         // Spring Security가 객체를 사용할 수 있도록 리턴
-        return new DefaultOAuth2User(
-                List.of(new SimpleGrantedAuthority(user.getRole())),
-                attributes,
-                "sub");
-    }
-
+        return new CustomOAuth2UserDetails(
+                user,
+                List.of(new SimpleGrantedAuthority(user.getRole())), 
+                attributes, 
+                "name");
+    }    
 }

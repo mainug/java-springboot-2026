@@ -16,6 +16,6 @@ public interface UserMapper {
 
     User findByEmail(String email);
 
-    void insertSocialuser(User user);
+    void insertSocialUser(User user);
 
 }

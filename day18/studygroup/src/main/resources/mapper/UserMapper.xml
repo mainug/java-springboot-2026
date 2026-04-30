@@ -62,7 +62,7 @@
         ) VALUES (
             #{userId},
             #{loginId},
-            #{password},
+            null,
             #{name},
             #{role},
             SYSDATE
